@@ -131,7 +131,11 @@ window.works = [
     slug: "work-15", title: "나는 시시하게 보고 지나쳤다", year: "2026",
     archiveMaterial: "디지털 프린트, 책", size: "16:9 · 1920 × 1080 px", timeline: "00:08:20", format: "디지털 프린트 · PVC 시트 · 책 · 310 × 220 cm", role: "",
     description: "나는 시시하게 보고 지나쳤다는 세상을 바라보는 태도에 관한 이야기이다. 세상을 관찰하는 눈이 아닌 그저 앞을 걸어가기 위해 존재하는 나의 눈에 대한 태도이다. 디스플레이에 머무르던 눈은 실제 세계의 빛을 지루하게 만들어버린다. 일상에는 스펙터클이나 사건 사고와 거리가 멀기 때문이다. 일상을 다시 돌아보고 내가 지나치지 않는 것, 지나치는 순간에 카메라를 들고 대상을 담기 시작했다. 그것은 기록이 아닌 습관 교정과 같은 행동이었다. 내가 보는 태도를 다르게 만들기 위해 시작한 기록은 바라본 대상의 글이 되고, 하나의 동일한 개체로 묶이고 있었다. 그리고 항상 내가 사용하는 '말'은 대상을 전부 담는 것이 아니다. 대상을 설명하고 표현하고 다른 사람들에게 온전히 전해지는지 알 수 없다. 현실을 사진으로, 사진을 글로 변환하는 과정에서 이미지의 힘이 상실되는 기분을 느꼈다. 대상을 보고, 설명하고, 그것이 무엇인지 알고 있지만, 물리적으로 볼 수 없는 눈이 가진 양면성을 느낄 수 있게 한다고 생각한다.",
-    poster: "assets/work-15-trivial-glance/work-15-trivial-glance.jpeg", homeImage: "assets/work-15-trivial-glance/work-15-trivial-glance.jpeg", video: "", materials: [],
+    poster: "https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/v1792770021/work-15-trivial-glance.jpg", homeImage: "https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/v1792770021/work-15-trivial-glance.jpg", video: "", materials: [],
+    sections: [
+      { title: "작업을 위한 텍스트 1", text: "이곳에 작업을 위한 텍스트 1 내용을 추가하세요.", images: [] },
+      { title: "작업을 위한 텍스트 2", text: "이곳에 작업을 위한 텍스트 2 내용을 추가하세요.", images: [] }
+    ],
     gallery: ["assets/work-15-trivial-glance/work-15-view-01.jpg", "assets/work-15-trivial-glance/work-15-view-02.jpg", "assets/work-15-trivial-glance/work-15-view-03.png", "assets/work-15-trivial-glance/work-15-view-04.png", "assets/work-15-trivial-glance/work-15-view-05.png", "assets/work-15-trivial-glance/work-15-view-06.png", "assets/work-15-trivial-glance/work-15-view-07.png", "assets/work-15-trivial-glance/work-15-view-08.png", "assets/work-15-trivial-glance/work-15-view-09.png", "assets/work-15-trivial-glance/work-15-view-10.png", "assets/work-15-trivial-glance/work-15-view-11.png", "assets/work-15-trivial-glance/work-15-view-12.png", "assets/work-15-trivial-glance/work-15-view-13.png", "assets/work-15-trivial-glance/work-15-view-14.png"],
     medium: "image", artwork: "artwork-five"
   },
