@@ -1,12 +1,17 @@
 const app = document.querySelector("#app");
 const year = document.querySelector("#year");
 const DETAIL_LIST_LIMIT = 15;
-const DETAIL_LAYOUT_KEY = "artist-portfolio-detail-layout-v1";
-const DEFAULT_DETAIL_LAYOUT = { list: 0.22, caption: 0.30 };
+const DETAIL_LAYOUT_KEY = "artist-portfolio-detail-layout-v4";
+const DEFAULT_DETAIL_RATIO = { list: 1 / 11, caption: 3 / 11 };
 const CLOUDINARY_IMAGE_BASE = "https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto";
-const defaultDetailLayout = () => window.innerWidth <= 760 ? { list: 0.28, caption: 0.30 } : { ...DEFAULT_DETAIL_LAYOUT };
+const defaultDetailLayout = () => {
+  const splitterSpace = (window.innerWidth <= 760 ? 12 : 16) / window.innerWidth;
+  const contentWidth = 1 - splitterSpace;
+  return { list: contentWidth * DEFAULT_DETAIL_RATIO.list, caption: contentWidth * DEFAULT_DETAIL_RATIO.caption };
+};
 const listedWorks = works.slice(0, DETAIL_LIST_LIMIT);
 let detailResizeHandler = null;
+let preservedProjectListScroll = null;
 
 function clearDetailResizeHandler() {
   if (detailResizeHandler) window.removeEventListener("resize", detailResizeHandler);
@@ -20,23 +25,25 @@ const escapeHTML = (value = "") => String(value).replace(/[&<>"']/g, (char) => (
   "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
 }[char]));
 
-function optimizedImageURL(src = "") {
+function optimizedImageURL(src = "", rotate = false) {
   if (!src) return "";
   const value = String(src);
   if (value.includes("res.cloudinary.com/") && value.includes("/image/upload/")) {
-    if (value.includes("/image/upload/f_auto,q_auto/")) return value;
-    return value.replace("/image/upload/", "/image/upload/f_auto,q_auto/");
+    if (value.includes("/image/upload/f_auto,q_auto")) {
+      return rotate && !value.includes("a_90") ? value.replace("/image/upload/f_auto,q_auto", "/image/upload/f_auto,q_auto,a_90") : value;
+    }
+    return value.replace("/image/upload/", `/image/upload/f_auto,q_auto${rotate ? ",a_90" : ""}/`);
   }
   if (!/^https?:\/\//i.test(value)) {
     const filename = value.split(/[?#]/, 1)[0].split("/").pop();
-    return filename ? `${CLOUDINARY_IMAGE_BASE}/${filename}` : "";
+    return filename ? `${CLOUDINARY_IMAGE_BASE}${rotate ? ",a_90" : ""}/${filename}` : "";
   }
   return value;
 }
 
-function posterMarkup(work, extraClass = "", image = work.poster) {
+function posterMarkup(work, extraClass = "", image = work.poster, rotate = false) {
   const classes = `poster ${escapeHTML(work.artwork || "")}${image ? " has-poster" : ""}${extraClass ? ` ${extraClass}` : ""}`;
-  if (image) return `<img class="${classes}" src="${escapeHTML(optimizedImageURL(image))}" alt="" aria-hidden="true" />`;
+  if (image) return `<img class="${classes}" src="${escapeHTML(optimizedImageURL(image, rotate))}" alt="" aria-hidden="true" loading="lazy" />`;
   return `<div class="${classes}" aria-hidden="true"></div>`;
 }
 
@@ -49,18 +56,17 @@ function videoEmbed(url, work) {
     return `<video class="video-frame" src="${escapeHTML(url)}" controls playsinline preload="metadata" aria-label="${escapeHTML(work.title)} 영상"></video>`;
   }
   let embed = url;
-  const youtube = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([\w-]+)/);
+  const youtube = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([\w-]+)/) || (/^[\w-]{11}$/.test(url) ? [url, url] : null);
   const vimeo = url.match(/vimeo\.com\/(?:video\/)?(\d+)/);
-  if (youtube) embed = `https://www.youtube-nocookie.com/embed/${youtube[1]}`;
+  if (youtube) embed = `https://youtube-nocookie.com/embed/${youtube[1]}`;
   else if (vimeo) embed = `https://player.vimeo.com/video/${vimeo[1]}`;
-  return `<iframe class="video-frame" src="${escapeHTML(embed)}" title="${escapeHTML(work.title)} 영상" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe>`;
+  return `<iframe class="video-frame" src="${escapeHTML(embed)}" title="${escapeHTML(work.title)} 영상" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen=""></iframe>`;
 }
 
 function projectMedia(work) {
-  if (work.video) return videoEmbed(work.video, work);
   const image = work.poster || work.homeImage;
-  if (work.medium === "video" && !image) return videoEmbed("", work);
-  return `<div class="still-stage">${posterMarkup(work, "still-poster", image)}</div>`;
+  if (!image && work.medium === "video" && !work.video) return videoEmbed("", work);
+  return `<div class="still-stage">${posterMarkup(work, "still-poster", image, work.slug === "work-01")}</div>`;
 }
 
 function renderWorkDetail(slug) {
@@ -69,9 +75,23 @@ function renderWorkDetail(slug) {
   if (!work) return renderNotFound();
   document.body.classList.add("detail-open");
   document.title = `${work.title} — ${artistInfo.name}`;
-  const materials = (work.materials || []).slice(0, 4).map((src) => `<figure class="material"><img src="${escapeHTML(optimizedImageURL(src))}" alt="${escapeHTML(work.title)} 작업 자료" /></figure>`).join("");
+  const materials = (work.materials || []).slice(0, 4).map((src) => `<figure class="material"><img src="${escapeHTML(optimizedImageURL(src))}" alt="${escapeHTML(work.title)} 작업 자료" loading="lazy" /></figure>`).join("");
   const contentSections = work.sections || [];
   const gallery = work.gallery || [];
+  const listMedium = (item) => (item.archiveMaterial || item.format || item.medium || "—").split(/[,，·]/)[0].trim();
+  const renderListRows = () => {
+    return listedWorks.map((item) => {
+      const thumbnail = item.homeImage || item.poster || "";
+      return `<button class="project-list-item${item.slug === work.slug ? " is-current" : ""}" type="button" data-work-slug="${escapeHTML(item.slug)}" aria-label="${escapeHTML(item.title)} 상세 보기">
+        <span class="project-list-thumb" aria-hidden="true">${thumbnail ? `<img src="${escapeHTML(optimizedImageURL(thumbnail, item.slug === "work-01"))}" alt="" loading="lazy" />` : ""}</span>
+        <span class="project-list-meta">
+          <span class="project-list-title">${escapeHTML(item.title)}</span>
+          <span class="project-list-year">${escapeHTML(item.year || "—")}</span>
+          <span class="project-list-medium">${escapeHTML(listMedium(item))}</span>
+        </span>
+      </button>`;
+    }).join("");
+  };
   const primaryImage = work.poster || work.homeImage || "";
   const imageItems = primaryImage
     ? [{ src: primaryImage, name: "대표 이미지" }, ...gallery.filter((src) => src !== primaryImage).map((item) => {
@@ -88,33 +108,25 @@ function renderWorkDetail(slug) {
       return { src, name: suppliedName || filename.replace(/^work-\d+-/, "").replace(/^map-of-senses-/, "").replace(/-/g, " ") };
     });
   const hasImageGrid = imageItems.length >= 2;
+  const rotateGalleryImage = (src, index) => (work.slug === "work-01" && index === 0)
+    || (work.slug === "work-15" && /work-15-view-(03|04|05|06|07|08|14)\./i.test(String(src)));
   const galleryMarkup = hasImageGrid ? `<div class="detail-gallery" aria-label="작업 이미지">
     ${imageItems.map((item, index) => `<button class="detail-grid-item" type="button" data-image-index="${index}" aria-label="${escapeHTML(item.name)} 크게 보기">
-      <span class="detail-grid-image"><img src="${escapeHTML(optimizedImageURL(item.src))}" alt="" loading="lazy" /></span>
-      <span class="detail-grid-name">${escapeHTML(item.name)}</span>
+      <span class="detail-grid-image"><img src="${escapeHTML(optimizedImageURL(item.src, rotateGalleryImage(item.src, index)))}" alt="" loading="lazy" /></span>
     </button>`).join("")}
   </div>` : "";
   const lightboxMarkup = hasImageGrid ? `<div class="image-lightbox" id="image-lightbox" role="dialog" aria-modal="true" aria-label="작업 이미지 보기" hidden>
     <button class="lightbox-close" type="button" aria-label="닫기">×</button>
     <button class="lightbox-nav lightbox-prev" type="button" aria-label="이전 이미지">←</button>
-    <figure class="lightbox-figure"><img class="lightbox-image" alt="" /><figcaption class="lightbox-caption"></figcaption></figure>
+    <figure class="lightbox-figure"><img class="lightbox-image" alt="" loading="lazy" /><figcaption class="lightbox-caption"></figcaption></figure>
     <button class="lightbox-nav lightbox-next" type="button" aria-label="다음 이미지">→</button>
   </div>` : "";
-  const centralMedia = `<div class="detail-feature"><div class="video-stage">${projectMedia(work)}</div></div>${galleryMarkup}`;
+  const videoPlayerMarkup = work.video && work.medium === "video" ? `<div class="detail-video-player">${videoEmbed(work.video, work)}</div>` : "";
+  const centralMedia = `<div class="detail-feature"><div class="video-stage">${projectMedia(work)}</div></div>${videoPlayerMarkup}${galleryMarkup}`;
   app.innerHTML = `
     <section class="project-layout" aria-label="${escapeHTML(work.title)}">
       <nav class="project-list" aria-label="작품 목록">
-        ${listedWorks.map((item) => {
-          const thumbnail = item.homeImage || item.poster || "";
-          const mediumSource = item.archiveMaterial || item.format || item.medium || "—";
-          const medium = mediumSource.split(/[,，·]/)[0].trim();
-          return `<button class="project-list-item${item.slug === work.slug ? " is-current" : ""}" type="button" data-work-slug="${escapeHTML(item.slug)}" aria-label="${escapeHTML(item.title)} 상세 보기. 더블클릭하여 열기" title="더블클릭하여 작품 열기">
-            <span class="project-list-thumb" aria-hidden="true">${thumbnail ? `<img src="${escapeHTML(optimizedImageURL(thumbnail))}" alt="" loading="lazy" />` : ""}</span>
-            <span class="project-list-title">${escapeHTML(item.title)}</span>
-            <span class="project-list-year">${escapeHTML(item.year || "—")}</span>
-            <span class="project-list-medium">${escapeHTML(medium)}</span>
-          </button>`;
-        }).join("")}
+        <div class="project-list-rows">${renderListRows()}</div>
       </nav>
       <div class="pane-splitter" role="separator" aria-orientation="vertical" aria-label="목록과 캡션 사이 너비 조절" tabindex="0" data-splitter="list" title="드래그해 너비 조절 · 더블클릭해 기본값으로"></div>
       <aside class="project-info" aria-label="작품 자료와 캡션">
@@ -142,17 +154,25 @@ function renderWorkDetail(slug) {
     ${lightboxMarkup}`;
   const openProject = (targetSlug) => {
     const target = `#work/${encodeURIComponent(targetSlug)}`;
-    if (location.hash === target) renderWorkDetail(targetSlug);
-    else location.hash = target;
+    if (location.hash === target) return;
+    preservedProjectListScroll = projectList.scrollTop;
+    location.hash = target;
   };
-  app.querySelectorAll(".project-list-item").forEach((button) => {
-    button.addEventListener("dblclick", () => openProject(button.dataset.workSlug));
-    button.addEventListener("keydown", (event) => {
-      if (event.key === "Enter") {
-        event.preventDefault();
-        openProject(button.dataset.workSlug);
-      }
-    });
+  const projectList = app.querySelector(".project-list");
+  if (preservedProjectListScroll !== null) {
+    projectList.scrollTop = preservedProjectListScroll;
+    preservedProjectListScroll = null;
+  }
+  projectList.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-work-slug]");
+    if (button) openProject(button.dataset.workSlug);
+  });
+  projectList.addEventListener("keydown", (event) => {
+    if (event.key !== "Enter") return;
+    const button = event.target.closest("[data-work-slug]");
+    if (!button) return;
+    event.preventDefault();
+    openProject(button.dataset.workSlug);
   });
   if (contentSections.length) {
     const contentDisplay = app.querySelector("#project-content-display");
@@ -202,8 +222,8 @@ function renderWorkDetail(slug) {
   };
   const clampLayout = (list, caption) => {
     const narrow = window.innerWidth <= 760;
-    const minList = (narrow ? 64 : 160) / window.innerWidth;
-    const minCaption = (narrow ? 70 : 220) / window.innerWidth;
+    const minList = (narrow ? 64 : 100) / window.innerWidth;
+    const minCaption = (narrow ? 70 : 150) / window.innerWidth;
     const splitterSpace = (narrow ? 12 : 16) / window.innerWidth;
     const minImages = (narrow ? 80 : 250) / window.innerWidth + splitterSpace;
     list = Math.max(minList, Math.min(list, 1 - minImages - caption));
@@ -276,7 +296,7 @@ function renderWorkDetail(slug) {
     const showImage = (index) => {
       activeImageIndex = (index + imageItems.length) % imageItems.length;
       const item = imageItems[activeImageIndex];
-      lightboxImage.src = optimizedImageURL(item.src);
+      lightboxImage.src = optimizedImageURL(item.src, rotateGalleryImage(item.src, activeImageIndex));
       lightboxImage.alt = item.name;
       lightboxCaption.textContent = `${item.name} · ${activeImageIndex + 1} / ${imageItems.length}`;
     };
@@ -314,12 +334,13 @@ function renderInfo() {
   document.body.classList.remove("detail-open");
   document.title = `Info — ${artistInfo.name}`;
   const instagram = artistInfo.instagram ? `<a href="${escapeHTML(artistInfo.instagram)}" target="_blank" rel="noreferrer">Instagram ↗</a>` : "";
+  const youtube = artistInfo.youtube ? `<a href="${escapeHTML(artistInfo.youtube)}" target="_blank" rel="noreferrer">YouTube ↗</a>` : "";
   app.innerHTML = `
     <section class="info-page">
       <h1>${escapeHTML(artistInfo.infoName || artistInfo.name)}</h1>
       <div class="info-content">
         <p>${escapeHTML(artistInfo.education)}<br><br>${escapeHTML(artistInfo.introduction).replace(/\n/g, "<br>")}</p>
-        <div class="contact-links"><a href="mailto:${escapeHTML(artistInfo.email)}">${escapeHTML(artistInfo.email)} ↗</a>${instagram}</div>
+        <div class="contact-links"><a href="mailto:${escapeHTML(artistInfo.email)}">${escapeHTML(artistInfo.email)} ↗</a>${instagram}${youtube}</div>
       </div>
     </section>`;
   setActiveNav("info");

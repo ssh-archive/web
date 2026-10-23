@@ -2,7 +2,7 @@
   작품 정보를 이 파일에서 수정하세요.
   - poster: 격자와 상세 페이지에 보일 대표 이미지 경로 (예: "assets/work-01.jpg")
   - homeImage: 메인 상세페이지 작품 목록의 썸네일. 영상에 포스터가 없을 때 대표 이미지로도 사용합니다.
-  - video: YouTube/Vimeo 주소 또는 mp4 파일 경로. 비워두면 기본 영상 플레이어가 표시됩니다.
+  - video: YouTube 영상 ID, YouTube/Vimeo 주소 또는 mp4 파일 경로. 비워두면 기본 영상 플레이어가 표시됩니다.
   - materials: 본문에 추가할 이미지 경로 배열
 */
 window.works = [
@@ -17,7 +17,7 @@ window.works = [
     poster: "",
     homeImage: "assets/work-01-map-of-senses/work-01-map-of-senses.png",
     gallery: ["assets/work-01-map-of-senses/map-of-senses-03.jpg", "assets/work-01-map-of-senses/map-of-senses-04.jpg", "assets/work-01-map-of-senses/map-of-senses-05.jpg", "assets/work-01-map-of-senses/map-of-senses-06.jpg", "assets/work-01-map-of-senses/map-of-senses-07.jpg", "assets/work-01-map-of-senses/map-of-senses-08.jpg", "assets/work-01-map-of-senses/map-of-senses-09.jpg", "assets/work-01-map-of-senses/map-of-senses-10.jpg", "assets/work-01-map-of-senses/map-of-senses-11.jpg", "assets/work-01-map-of-senses/map-of-senses-12.jpg", "assets/work-01-map-of-senses/map-of-senses-13.jpg", "assets/work-01-map-of-senses/map-of-senses-14.jpg", "assets/work-01-map-of-senses/map-of-senses-15.jpg", "assets/work-01-map-of-senses/map-of-senses-16.jpg", "assets/work-01-map-of-senses/map-of-senses-17.jpg", "assets/work-01-map-of-senses/map-of-senses-19.jpg"],
-    video: "",
+    video: "https://youtu.be/H_7cm6VNVoo",
     materials: [],
     medium: "video",
     artwork: "artwork-one"
@@ -32,7 +32,7 @@ window.works = [
     description: "작품별로 글과 자료를 다르게 구성해보세요. 텍스트가 길어져도 영상과 사진 사이에서 자연스럽게 읽히도록 배치됩니다.",
     poster: "",
     homeImage: "assets/work-02-beoljit/work-02-beoljit.png",
-    video: "",
+    video: "https://youtu.be/yQZRlRd8ygs",
     materials: [],
     medium: "video",
     artwork: "artwork-two"
@@ -77,7 +77,7 @@ window.works = [
     description: "작품별 정보를 이곳에 적어주세요.",
     poster: "",
     homeImage: "assets/work-05-viewing-experience-2/work-05-viewing-experience-2.jpg",
-    video: "",
+    video: "https://youtu.be/c1GlLmTpD9w",
     materials: [],
     medium: "video",
     artwork: "artwork-five"
@@ -85,7 +85,7 @@ window.works = [
   {
     slug: "work-06", title: "미궁", year: "2025",
     archiveMaterial: "비디오", size: "16:9 · 1920 × 1080 px", timeline: "00:08:20", format: "비디오", role: "기획 · 촬영 · 편집",
-    description: "작품 설명을 입력해 주세요.", poster: "", homeImage: "assets/work-06-maze/work-06-maze.jpg", video: "", materials: [], medium: "video", artwork: "artwork-one"
+    description: "작품 설명을 입력해 주세요.", poster: "", homeImage: "assets/work-06-maze/work-06-maze.jpg", video: "https://youtu.be/m5loLvI6hkc", materials: [], medium: "video", artwork: "artwork-one"
   },
   {
     slug: "work-07", title: "도시가 보이는 바다", year: "2025",
@@ -105,12 +105,12 @@ window.works = [
   {
     slug: "work-10", title: "인간들의 왕국", year: "2025",
     archiveMaterial: "비디오", size: "Variable · 8 prints", timeline: "Series · 8 images", format: "비디오", role: "기획 · 촬영",
-    description: "작품 설명을 입력해 주세요.", poster: "", homeImage: "assets/work-10-human-kingdom/work-10-human-kingdom.png", video: "", materials: [], medium: "video", artwork: "artwork-five"
+    description: "작품 설명을 입력해 주세요.", poster: "", homeImage: "assets/work-10-human-kingdom/work-10-human-kingdom.png", video: "https://youtu.be/zsCXblgRrts", materials: [], medium: "video", artwork: "artwork-five"
   },
   {
     slug: "work-11", title: "태양은 밤에도 빛난다", year: "2025",
     archiveMaterial: "비디오", size: "A4 · 12 pages", timeline: "12 pages", format: "비디오", role: "글",
-    description: "작품 설명을 입력해 주세요.", poster: "", homeImage: "assets/work-11-sunlight-at-night/work-11-sunlight-at-night.jpeg", video: "", materials: [], medium: "video", artwork: "artwork-one"
+    description: "작품 설명을 입력해 주세요.", poster: "", homeImage: "assets/work-11-sunlight-at-night/work-11-sunlight-at-night.jpeg", video: "https://youtu.be/piykNK4K8SE", materials: [], medium: "video", artwork: "artwork-one"
   },
   {
     slug: "work-12", title: "보기 경험 3", year: "2026",
@@ -132,11 +132,7 @@ window.works = [
     archiveMaterial: "디지털 프린트, 책", size: "16:9 · 1920 × 1080 px", timeline: "00:08:20", format: "디지털 프린트 · PVC 시트 · 책 · 310 × 220 cm", role: "",
     description: "나는 시시하게 보고 지나쳤다는 세상을 바라보는 태도에 관한 이야기이다. 세상을 관찰하는 눈이 아닌 그저 앞을 걸어가기 위해 존재하는 나의 눈에 대한 태도이다. 디스플레이에 머무르던 눈은 실제 세계의 빛을 지루하게 만들어버린다. 일상에는 스펙터클이나 사건 사고와 거리가 멀기 때문이다. 일상을 다시 돌아보고 내가 지나치지 않는 것, 지나치는 순간에 카메라를 들고 대상을 담기 시작했다. 그것은 기록이 아닌 습관 교정과 같은 행동이었다. 내가 보는 태도를 다르게 만들기 위해 시작한 기록은 바라본 대상의 글이 되고, 하나의 동일한 개체로 묶이고 있었다. 그리고 항상 내가 사용하는 '말'은 대상을 전부 담는 것이 아니다. 대상을 설명하고 표현하고 다른 사람들에게 온전히 전해지는지 알 수 없다. 현실을 사진으로, 사진을 글로 변환하는 과정에서 이미지의 힘이 상실되는 기분을 느꼈다. 대상을 보고, 설명하고, 그것이 무엇인지 알고 있지만, 물리적으로 볼 수 없는 눈이 가진 양면성을 느낄 수 있게 한다고 생각한다.",
     poster: "https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/v1792770021/work-15-trivial-glance.jpg", homeImage: "https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/v1792770021/work-15-trivial-glance.jpg", video: "", materials: [],
-    sections: [
-      { title: "작업을 위한 텍스트 1", text: "이곳에 작업을 위한 텍스트 1 내용을 추가하세요.", images: [] },
-      { title: "작업을 위한 텍스트 2", text: "이곳에 작업을 위한 텍스트 2 내용을 추가하세요.", images: [] }
-    ],
-    gallery: ["assets/work-15-trivial-glance/work-15-view-01.jpg", "assets/work-15-trivial-glance/work-15-view-02.jpg", "assets/work-15-trivial-glance/work-15-view-03.png", "assets/work-15-trivial-glance/work-15-view-04.png", "assets/work-15-trivial-glance/work-15-view-05.png", "assets/work-15-trivial-glance/work-15-view-06.png", "assets/work-15-trivial-glance/work-15-view-07.png", "assets/work-15-trivial-glance/work-15-view-08.png", "assets/work-15-trivial-glance/work-15-view-09.png", "assets/work-15-trivial-glance/work-15-view-10.png", "assets/work-15-trivial-glance/work-15-view-11.png", "assets/work-15-trivial-glance/work-15-view-12.png", "assets/work-15-trivial-glance/work-15-view-13.png", "assets/work-15-trivial-glance/work-15-view-14.png"],
+    gallery: ["assets/work-15-trivial-glance/work-15-view-01.jpg", "assets/work-15-trivial-glance/work-15-view-02.jpg", "assets/work-15-trivial-glance/work-15-view-09.png", "assets/work-15-trivial-glance/work-15-view-10.png", "assets/work-15-trivial-glance/work-15-view-11.png", "assets/work-15-trivial-glance/work-15-view-12.png", "assets/work-15-trivial-glance/work-15-view-13.png", "assets/work-15-trivial-glance/work-15-view-03.png", "assets/work-15-trivial-glance/work-15-view-04.png", "assets/work-15-trivial-glance/work-15-view-05.png", "assets/work-15-trivial-glance/work-15-view-06.png", "assets/work-15-trivial-glance/work-15-view-07.png", "assets/work-15-trivial-glance/work-15-view-08.png", "assets/work-15-trivial-glance/work-15-view-14.png"],
     medium: "image", artwork: "artwork-five"
   },
   {
@@ -197,5 +193,6 @@ window.artistInfo = {
   education: "2026년 계원예술대학교 재학",
   introduction: "송승후는 사진, 영상, 텍스트 등, 현실을 표방하고 흉내 내는 것들에 관심을 가진다. 그러한 복제 매체는 원본 세계와의 괴리감이 생겨나는데, 때로는 현실의 생생함을 눈이 담지 못하여 가상처럼 느껴지거나 오히려 저화질 영상이 현실과 닮게 느껴지기도 한다. 그러한 진짜와 가짜가 서로의 영역을 침범하는 순간을 탐구한다.",
   email: "hello@example.com",
-  instagram: ""
+  instagram: "",
+  youtube: "https://www.youtube.com/@ssh-archive"
 };
