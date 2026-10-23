@@ -124,13 +124,40 @@ function renderWorkDetail(slug) {
   clearTimeout(slideshowTimer);
   document.title = `${work.title} — ${artistInfo.name}`;
   const materials = (work.materials || []).slice(0, 4).map((src) => `<figure class="material"><img src="${escapeHTML(src)}" alt="${escapeHTML(work.title)} 작업 자료" /></figure>`).join("");
+  const gallery = work.gallery || [];
+  const primaryImage = work.poster || work.homeImage || "";
+  const imageItems = primaryImage
+    ? [{ src: primaryImage, name: "대표 이미지" }, ...gallery.filter((src) => src !== primaryImage).map((item) => {
+      const src = typeof item === "string" ? item : item.src;
+      const suppliedName = typeof item === "string" ? "" : item.name;
+      const filename = (src || "").split("/").pop().replace(/\.[^.]+$/, "");
+      const name = suppliedName || filename.replace(/^work-\d+-/, "").replace(/^map-of-senses-/, "").replace(/-/g, " ");
+      return { src, name };
+    })]
+    : gallery.map((item) => {
+      const src = typeof item === "string" ? item : item.src;
+      const suppliedName = typeof item === "string" ? "" : item.name;
+      const filename = (src || "").split("/").pop().replace(/\.[^.]+$/, "");
+      return { src, name: suppliedName || filename.replace(/^work-\d+-/, "").replace(/^map-of-senses-/, "").replace(/-/g, " ") };
+    });
+  const hasImageGrid = imageItems.length >= 2;
+  const galleryMarkup = hasImageGrid ? `<div class="detail-gallery" aria-label="작업 이미지">
+    ${imageItems.map((item, index) => `<button class="detail-grid-item" type="button" data-image-index="${index}" aria-label="${escapeHTML(item.name)} 크게 보기">
+      <span class="detail-grid-image"><img src="${escapeHTML(item.src)}" alt="" loading="lazy" /></span>
+      <span class="detail-grid-name">${escapeHTML(item.name)}</span>
+    </button>`).join("")}
+  </div>` : "";
+  const lightboxMarkup = hasImageGrid ? `<div class="image-lightbox" id="image-lightbox" role="dialog" aria-modal="true" aria-label="작업 이미지 보기" hidden>
+    <button class="lightbox-close" type="button" aria-label="닫기">×</button>
+    <button class="lightbox-nav lightbox-prev" type="button" aria-label="이전 이미지">←</button>
+    <figure class="lightbox-figure"><img class="lightbox-image" alt="" /><figcaption class="lightbox-caption"></figcaption></figure>
+    <button class="lightbox-nav lightbox-next" type="button" aria-label="다음 이미지">→</button>
+  </div>` : "";
+  const centralMedia = `<div class="detail-feature"><div class="video-stage">${projectMedia(work)}</div></div>${galleryMarkup}`;
   app.innerHTML = `
     <section class="project-layout" aria-label="${escapeHTML(work.title)}">
-      <nav class="work-list" aria-label="다른 작업">
-        ${works.map((item) => fileRow(item, "file-row")).join("")}
-      </nav>
-      <section class="project-main" aria-label="메인 작업">
-        <div class="video-stage">${projectMedia(work)}</div>
+      <section class="project-main gallery-scroll" aria-label="메인 작업">
+        ${centralMedia}
       </section>
       <aside class="project-info" aria-label="작품 캡션과 이미지">
         <header class="caption">
@@ -141,7 +168,47 @@ function renderWorkDetail(slug) {
         </header>
         ${materials ? `<div class="materials">${materials}</div>` : ""}
       </aside>
-    </section>`;
+    </section>
+    ${lightboxMarkup}`;
+  if (hasImageGrid) {
+    const lightbox = document.querySelector("#image-lightbox");
+    const lightboxImage = lightbox.querySelector(".lightbox-image");
+    const lightboxCaption = lightbox.querySelector(".lightbox-caption");
+    let activeImageIndex = 0;
+    let returnFocus = null;
+    const showImage = (index) => {
+      activeImageIndex = (index + imageItems.length) % imageItems.length;
+      const item = imageItems[activeImageIndex];
+      lightboxImage.src = item.src;
+      lightboxImage.alt = item.name;
+      lightboxCaption.textContent = `${item.name} · ${activeImageIndex + 1} / ${imageItems.length}`;
+    };
+    const closeLightbox = () => {
+      lightbox.hidden = true;
+      document.removeEventListener("keydown", handleLightboxKeydown);
+      returnFocus?.focus();
+    };
+    const handleLightboxKeydown = (event) => {
+      if (event.key === "Escape") closeLightbox();
+      if (event.key === "ArrowLeft") showImage(activeImageIndex - 1);
+      if (event.key === "ArrowRight") showImage(activeImageIndex + 1);
+    };
+    app.querySelectorAll(".detail-grid-item").forEach((button) => {
+      button.addEventListener("click", () => {
+        returnFocus = button;
+        showImage(Number(button.dataset.imageIndex));
+        lightbox.hidden = false;
+        lightbox.querySelector(".lightbox-close").focus();
+        document.addEventListener("keydown", handleLightboxKeydown);
+      });
+    });
+    lightbox.querySelector(".lightbox-close").addEventListener("click", closeLightbox);
+    lightbox.querySelector(".lightbox-prev").addEventListener("click", () => showImage(activeImageIndex - 1));
+    lightbox.querySelector(".lightbox-next").addEventListener("click", () => showImage(activeImageIndex + 1));
+    lightbox.addEventListener("click", (event) => {
+      if (event.target === lightbox) closeLightbox();
+    });
+  }
   setActiveNav("work");
 }
 
@@ -153,9 +220,9 @@ function renderInfo() {
   const instagram = artistInfo.instagram ? `<a href="${escapeHTML(artistInfo.instagram)}" target="_blank" rel="noreferrer">Instagram ↗</a>` : "";
   app.innerHTML = `
     <section class="info-page">
-      <h1>${escapeHTML(artistInfo.name)}</h1>
+      <h1>${escapeHTML(artistInfo.infoName || artistInfo.name)}</h1>
       <div class="info-content">
-        <p>${escapeHTML(artistInfo.introduction).replace(/\n/g, "<br>")}</p>
+        <p>${escapeHTML(artistInfo.education)}<br><br>${escapeHTML(artistInfo.introduction).replace(/\n/g, "<br>")}</p>
         <div class="contact-links"><a href="mailto:${escapeHTML(artistInfo.email)}">${escapeHTML(artistInfo.email)} ↗</a>${instagram}</div>
       </div>
     </section>`;
