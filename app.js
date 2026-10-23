@@ -1,14 +1,11 @@
 const app = document.querySelector("#app");
 const year = document.querySelector("#year");
-const previewColors = ["#202020", "#383838", "#555555", "#777777", "#999999"];
 const DETAIL_LIST_LIMIT = 15;
 const DETAIL_LAYOUT_KEY = "artist-portfolio-detail-layout-v1";
 const DEFAULT_DETAIL_LAYOUT = { list: 0.22, caption: 0.30 };
 const CLOUDINARY_IMAGE_BASE = "https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto";
 const defaultDetailLayout = () => window.innerWidth <= 760 ? { list: 0.28, caption: 0.30 } : { ...DEFAULT_DETAIL_LAYOUT };
-const homeWorks = works.slice(0, DETAIL_LIST_LIMIT);
-let slideshowTimer;
-let slideIndex = 0;
+const listedWorks = works.slice(0, DETAIL_LIST_LIMIT);
 let detailResizeHandler = null;
 
 function clearDetailResizeHandler() {
@@ -43,87 +40,9 @@ function posterMarkup(work, extraClass = "", image = work.poster) {
   return `<div class="${classes}" aria-hidden="true"></div>`;
 }
 
-function captionFields(work) {
-  const material = work.archiveMaterial || work.format || work.medium || "—";
-  return `${escapeHTML(work.year || "—")} · ${escapeHTML(material)}`;
-}
-
-function fileRow(work, className = "file-row") {
-  return `<a class="${className}" href="#work/${encodeURIComponent(work.slug)}"><span>${escapeHTML(work.title)}</span><span class="row-meta">${captionFields(work)}</span></a>`;
-}
-
-function renderWorkIndex() {
-  clearDetailResizeHandler();
-  document.title = `${artistInfo.name} — Works`;
-  document.body.classList.remove("detail-open");
-  document.body.classList.remove("home-scrolled");
-  document.body.classList.add("home-page");
-  clearTimeout(slideshowTimer);
-  slideIndex = 0;
-  app.innerHTML = `
-    <section class="index-layout" aria-label="작품 목록">
-      <section class="hero-section" aria-label="작품 이미지 슬라이드">
-        <button class="hero-slide" id="hero-slide" type="button" aria-label="다음 작품 이미지">
-          <img class="hero-image" id="hero-image" alt="" hidden />
-          <span class="hero-placeholder" id="hero-placeholder" aria-hidden="true"></span>
-        </button>
-      </section>
-      <section class="work-section" aria-label="작업 그리드">
-        <div class="work-grid">
-          ${homeWorks.map((work, index) => `
-            <a class="work-card" style="--tile-color:${previewColors[index % previewColors.length]}" href="#work/${encodeURIComponent(work.slug)}" aria-label="${escapeHTML(work.title)}, ${escapeHTML(work.year)}">
-            ${posterMarkup(work, "", work.homeImage || work.poster)}
-            </a>`).join("")}
-        </div>
-      </section>
-    </section>`;
-  const hero = document.querySelector("#hero-slide");
-  const heroImage = document.querySelector("#hero-image");
-  const placeholder = document.querySelector("#hero-placeholder");
-  function showSlide(index) {
-    slideIndex = index % homeWorks.length;
-    const work = homeWorks[slideIndex];
-    hero.style.setProperty("--slide-color", previewColors[slideIndex % previewColors.length]);
-    hero.setAttribute("aria-label", `다음 이미지 · ${work.title}`);
-    const image = work.homeImage || work.poster;
-    if (image) {
-      heroImage.src = optimizedImageURL(image);
-      heroImage.alt = work.title;
-      heroImage.hidden = false;
-      placeholder.hidden = true;
-    } else {
-      heroImage.removeAttribute("src");
-      heroImage.hidden = true;
-      placeholder.textContent = String(slideIndex + 1).padStart(2, "0");
-      placeholder.hidden = false;
-    }
-  }
-  function resetSlideTimer() {
-    clearTimeout(slideshowTimer);
-    slideshowTimer = setTimeout(() => {
-      showSlide(slideIndex + 1);
-      resetSlideTimer();
-    }, 10000);
-  }
-  hero.addEventListener("click", () => {
-    showSlide(slideIndex + 1);
-    resetSlideTimer();
-  });
-  showSlide(slideIndex);
-  resetSlideTimer();
-  syncHomeTheme();
-  setActiveNav("work");
-}
-
-function syncHomeTheme() {
-  if (!document.body.classList.contains("home-page")) return;
-  const hero = document.querySelector(".hero-section");
-  document.body.classList.toggle("home-scrolled", Boolean(hero && hero.getBoundingClientRect().bottom <= 0));
-}
-
 function videoEmbed(url, work) {
   if (!url) {
-    const poster = work.poster ? ` poster="${escapeHTML(work.poster)}"` : "";
+    const poster = work.poster ? ` poster="${escapeHTML(optimizedImageURL(work.poster))}"` : "";
     return `<video class="video-frame"${poster} controls playsinline preload="metadata" aria-label="${escapeHTML(work.title)} 영상"></video>`;
   }
   if (/\.(mp4|m4v|mov|webm|ogg)(?:$|[?#])/i.test(url)) {
@@ -138,8 +57,10 @@ function videoEmbed(url, work) {
 }
 
 function projectMedia(work) {
-  if (work.medium === "video" || work.video) return videoEmbed(work.video, work);
-  return `<div class="still-stage">${posterMarkup(work, "still-poster")}</div>`;
+  if (work.video) return videoEmbed(work.video, work);
+  const image = work.poster || work.homeImage;
+  if (work.medium === "video" && !image) return videoEmbed("", work);
+  return `<div class="still-stage">${posterMarkup(work, "still-poster", image)}</div>`;
 }
 
 function renderWorkDetail(slug) {
@@ -147,8 +68,6 @@ function renderWorkDetail(slug) {
   const work = works.find((item) => item.slug === slug);
   if (!work) return renderNotFound();
   document.body.classList.add("detail-open");
-  document.body.classList.remove("home-page", "home-scrolled");
-  clearTimeout(slideshowTimer);
   document.title = `${work.title} — ${artistInfo.name}`;
   const materials = (work.materials || []).slice(0, 4).map((src) => `<figure class="material"><img src="${escapeHTML(optimizedImageURL(src))}" alt="${escapeHTML(work.title)} 작업 자료" /></figure>`).join("");
   const contentSections = work.sections || [];
@@ -185,7 +104,7 @@ function renderWorkDetail(slug) {
   app.innerHTML = `
     <section class="project-layout" aria-label="${escapeHTML(work.title)}">
       <nav class="project-list" aria-label="작품 목록">
-        ${homeWorks.map((item) => {
+        ${listedWorks.map((item) => {
           const thumbnail = item.homeImage || item.poster || "";
           const mediumSource = item.archiveMaterial || item.format || item.medium || "—";
           const medium = mediumSource.split(/[,，·]/)[0].trim();
@@ -393,8 +312,6 @@ function renderWorkDetail(slug) {
 function renderInfo() {
   clearDetailResizeHandler();
   document.body.classList.remove("detail-open");
-  document.body.classList.remove("home-page", "home-scrolled");
-  clearTimeout(slideshowTimer);
   document.title = `Info — ${artistInfo.name}`;
   const instagram = artistInfo.instagram ? `<a href="${escapeHTML(artistInfo.instagram)}" target="_blank" rel="noreferrer">Instagram ↗</a>` : "";
   app.innerHTML = `
@@ -411,8 +328,6 @@ function renderInfo() {
 function renderArchive() {
   clearDetailResizeHandler();
   document.body.classList.remove("detail-open");
-  document.body.classList.remove("home-page", "home-scrolled");
-  clearTimeout(slideshowTimer);
   document.title = `Archive — ${artistInfo.name}`;
   app.innerHTML = `
     <section class="archive-page" aria-label="작업 아카이브">
@@ -433,8 +348,6 @@ function renderArchive() {
 function renderNotFound() {
   clearDetailResizeHandler();
   document.body.classList.remove("detail-open");
-  document.body.classList.remove("home-page", "home-scrolled");
-  clearTimeout(slideshowTimer);
   app.innerHTML = `<section class="not-found"><p class="eyebrow">404</p><h1>작품을 찾을 수 없습니다.</h1><a class="back-link" href="#work">← 작품 목록으로</a></section>`;
   setActiveNav("work");
 }
@@ -449,7 +362,7 @@ function setActiveNav(name) {
 document.querySelector('[data-nav="work"]').addEventListener("click", (event) => {
   if (location.hash === "#work") {
     event.preventDefault();
-    renderWorkIndex();
+    renderWorkDetail(works[0]?.slug || "");
   }
 });
 
@@ -458,9 +371,8 @@ function renderRoute() {
   if (page === "info") renderInfo();
   else if (page === "archive") renderArchive();
   else if (page === "work" && slug) renderWorkDetail(slug);
-  else renderWorkIndex();
+  else renderWorkDetail(works[0]?.slug || "");
 }
 
 window.addEventListener("hashchange", renderRoute);
-window.addEventListener("scroll", syncHomeTheme, { passive: true });
 renderRoute();

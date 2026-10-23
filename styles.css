@@ -18,41 +18,15 @@ body.detail-open { height: 100svh; overflow: hidden; }
 a { color: inherit; text-decoration: none; }
 
 .site-header { position: fixed; z-index: 20; inset: 0 0 auto; height: var(--row-height); padding: 0 18px; display: flex; justify-content: space-between; align-items: center; background: var(--paper); border-bottom: 1px solid var(--rule); }
-body.home-page .site-header { justify-content: flex-end; gap: 38px; }
-body.home-page .wordmark { display: none; }
-body.home-page .site-header { background: #000; color: #fff; border-bottom-color: #000; }
-body.home-page.home-scrolled .site-header { background: var(--paper); color: var(--ink); border-bottom-color: var(--rule); }
 .wordmark, .top-nav a { font-size: 11px; font-weight: 300; letter-spacing: .015em; }
 .wordmark { position: static; width: auto; padding: 0; text-align: left; white-space: nowrap; }
 .top-nav { display: flex; gap: 22px; }
 .top-nav a[aria-current="page"] { text-decoration: underline; text-underline-offset: 3px; }
 main { min-height: 100svh; }
 
-/* Main page: a video-shaped slideshow above a full-width work grid. */
-.index-layout { min-height: 100svh; padding-top: var(--row-height); display: block; }
-.hero-section { width: 100%; height: calc(100svh - var(--row-height)); display: flex; align-items: center; justify-content: center; overflow: hidden; background: #000; }
-.hero-slide { display: grid; place-items: center; width: 100%; height: 100%; padding: 0; overflow: hidden; border: 0; background: #000; color: #fff; cursor: pointer; }
-.hero-image { display: block; width: 90%; height: 90%; max-width: 90vw; max-height: 90vh; object-fit: contain; object-position: center; }
-.hero-placeholder { font-size: clamp(56px, 15vw, 240px); font-weight: 300; line-height: 1; }
-.hero-image[hidden], .hero-placeholder[hidden] { display: none; }
-.work-section { margin-top: clamp(400px, calc(40vw + 144px), 720px); }
-.home-work-list { position: sticky; top: var(--row-height); height: calc(100svh - var(--row-height)); overflow-y: auto; overscroll-behavior: contain; scrollbar-width: none; }
-.home-work-list::-webkit-scrollbar, .work-list::-webkit-scrollbar, .caption::-webkit-scrollbar, .project-info::-webkit-scrollbar, .archive-list::-webkit-scrollbar { display: none; }
-.work-list, .project-info, .archive-list { scrollbar-width: none; }
-.file-row { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 8px; align-items: baseline; height: var(--row-height); padding: 4px 12px; border-bottom: 1px solid var(--rule); font-size: var(--label-size); font-weight: 300; line-height: 1.25; white-space: nowrap; }
-.file-row > span:first-child { overflow: hidden; text-overflow: ellipsis; }
-.row-meta { color: inherit; font-size: inherit; line-height: inherit; }
-.file-row:hover, .file-row:focus-visible { border-bottom-color: var(--rule); text-decoration: none; }
-.work-grid { width: 100%; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); grid-auto-rows: 20vw; gap: 1px; background: #fff; }
-.work-card { position: relative; display: block; min-width: 0; min-height: 0; overflow: hidden; background: #000; }
-.work-card:nth-child(5n + 1) { --tile-color: #202020; }
-.work-card:nth-child(5n + 2) { --tile-color: #383838; }
-.work-card:nth-child(5n + 3) { --tile-color: #555; }
-.work-card:nth-child(5n + 4) { --tile-color: #777; }
-.work-card:nth-child(5n + 5) { --tile-color: #999; }
+.caption::-webkit-scrollbar, .project-info::-webkit-scrollbar, .archive-list::-webkit-scrollbar { display: none; }
+.project-info, .archive-list { scrollbar-width: none; }
 .poster { position: absolute; inset: 0; background-color: var(--tile-color, #ddd); background-image: var(--poster-image, none); background-size: cover; background-position: center; }
-.index-layout .poster.has-poster { inset: auto; top: 50%; left: 50%; width: auto; height: auto; max-width: 100%; max-height: 100%; transform: translate(-50%, -50%); object-fit: contain; background: none; }
-.work-card:focus-visible { outline: 1px solid var(--ink); outline-offset: -2px; }
 
 /* Detail page: a centered feature followed by a labeled image grid. */
 .project-layout { position: fixed; inset: var(--row-height) 0 0; display: grid; grid-template-columns: minmax(160px,var(--detail-list-size,22vw)) 8px minmax(220px,var(--detail-caption-size,30vw)) 8px minmax(250px,1fr); font-family: var(--sans); font-weight: 400; }
@@ -127,16 +101,7 @@ body.resizing-detail-panes, body.resizing-detail-panes * { cursor: col-resize !i
 @media (max-width: 760px) {
   :root { --label-size: 12px; --row-height: 30px; }
   .site-header { height: var(--row-height); padding: 0 13px; }
-  body.home-page .site-header { gap: 20px; }
-  .index-layout { padding-top: var(--row-height); }
   .project-layout { inset: var(--row-height) 0 0; }
-  .work-grid { grid-template-columns: repeat(2,minmax(0,1fr)); grid-auto-rows: 50vw; }
-  .hero-section { height: calc(100svh - var(--row-height)); }
-  .hero-slide { width: 100%; height: 100%; }
-  .hero-placeholder { font-size: clamp(48px, 24vw, 120px); }
-  .work-section { margin-top: 384px; }
-  .home-work-list { top: var(--row-height); height: calc(100svh - var(--row-height)); }
-  .file-row { padding: 2px 8px; gap: 5px; }
   .project-layout { grid-template-columns: minmax(0,var(--detail-list-size,28vw)) 6px minmax(0,var(--detail-caption-size,30vw)) 6px minmax(0,1fr); grid-template-rows: minmax(0,1fr); }
   .project-list { grid-column: 1; grid-row: 1; }
   .project-layout > .pane-splitter[data-splitter="list"] { grid-column: 2; grid-row: 1; }
