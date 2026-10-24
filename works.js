@@ -32,6 +32,7 @@ window.works = [
     archiveMaterial: "비디오", size: "A4 · 12 pages", timeline: "12 pages",
     format: "비디오",
     homeImage: "assets/work-03-digital-lantern/work-03-digital-lantern.jpeg",
+    video: "https://www.youtube.com/embed/3Uw7X1X95CY?si=3VmC0tCKT3qjya4S",
     medium: "video",
   },
   {
@@ -41,6 +42,7 @@ window.works = [
     archiveMaterial: "비디오", size: "16:9 · 1920 × 1080 px", timeline: "00:08:20",
     format: "비디오",
     homeImage: "assets/work-04-viewing-experience-1/work-04-viewing-experience-1.jpg",
+    video: "https://www.youtube.com/embed/aCdNrAX20oY?si=jcaqKo85VmW_yal6",
     medium: "video",
   },
   {
@@ -61,17 +63,19 @@ window.works = [
   {
     slug: "work-07", title: "도시가 보이는 바다", year: "2025",
     archiveMaterial: "비디오", size: "Variable · 8 prints", timeline: "Series · 8 images", format: "비디오",
+    homeImage: "https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/v1792819896/%EB%8F%84%EC%8B%9C%EA%B0%80_%EB%B3%B4%EC%9D%B4%EB%8A%94_%EB%B0%94%EB%8B%A4.jpg",
+    video: "https://www.youtube.com/embed/iv_H_flT098?si=ZJTKT967HuDq6U8i",
     medium: "video"
   },
   {
     slug: "work-08", title: "인간 . 자연", year: "2025",
     archiveMaterial: "비디오", size: "A4 · 12 pages", timeline: "12 pages", format: "비디오",
-    homeImage: "assets/work-08-human-nature/work-08-human-nature.png", medium: "video"
+    homeImage: "assets/work-08-human-nature/work-08-human-nature.png", video: "https://www.youtube.com/embed/Q4LqzVRQsgM?si=I0dXrGjxwXh64ClP", medium: "video"
   },
   {
     slug: "work-09", title: "Bugbuster Heatrunner", year: "2025",
     archiveMaterial: "비디오", size: "16:9 · 1920 × 1080 px", timeline: "00:08:20", format: "비디오",
-    homeImage: "assets/work-09-bugbuster-heat-runner/work-09-bugbuster-heat-runner.png", medium: "video"
+    homeImage: "assets/work-09-bugbuster-heat-runner/work-09-bugbuster-heat-runner.png", video: "https://www.youtube.com/embed/zFZcTLlamio?si=3Mt7HADCxY8Rzxnw", medium: "video"
   },
   {
     slug: "work-10", title: "인간들의 왕국", year: "2025",

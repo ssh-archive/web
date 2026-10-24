@@ -1,8 +1,8 @@
 const app = document.querySelector("#app");
 const DETAIL_LIST_LIMIT = 15;
-const DETAIL_LAYOUT_KEY = "artist-portfolio-detail-layout-v5";
+const DETAIL_LAYOUT_KEY = "artist-portfolio-detail-layout-v6";
 const PROJECT_LIST_SCROLL_KEY = "artist-portfolio-project-list-scroll";
-const DEFAULT_DETAIL_RATIO = { list: 1.5 / 11, caption: 3 / 11 };
+const DEFAULT_DETAIL_RATIO = { list: 1.8 / 11, caption: 3 / 11 };
 const CLOUDINARY_IMAGE_BASE = "https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto";
 const defaultDetailLayout = () => {
   const splitterSpace = (window.innerWidth <= 760 ? 12 : 16) / window.innerWidth;
@@ -65,6 +65,7 @@ function renderWorkDetail(slug) {
       const thumbnail = item.homeImage || "";
       return `<button class="project-list-item${item.slug === work.slug ? " is-current" : ""}" type="button" data-work-slug="${escapeHTML(item.slug)}" aria-label="${escapeHTML(item.title)} · ${escapeHTML(item.year || "—")} · ${escapeHTML(listMedium(item))} 상세 보기">
         <span class="project-list-thumb" aria-hidden="true">${thumbnail ? `<img src="${escapeHTML(optimizedImageURL(thumbnail, item.slug === "work-01"))}" alt="" loading="lazy" />` : ""}</span>
+        <span class="project-list-meta"><span class="project-list-title">${escapeHTML(item.title)}</span><span class="project-list-year">${escapeHTML(item.year || "")}</span><span class="project-list-caption">${escapeHTML(listMedium(item))}</span></span>
       </button>`;
     }).join("");
   };
@@ -372,6 +373,7 @@ function renderRoute() {
   if (page === "info") renderInfo();
   else if (page === "archive") renderArchive();
   else if (page === "work" && slug) renderWorkDetail(slug);
+  else if (!page) renderInfo();
   else renderWorkDetail(works[0]?.slug || "");
 }
 
