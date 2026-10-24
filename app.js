@@ -1,21 +1,21 @@
 const app = document.querySelector("#app");
 const DETAIL_LIST_LIMIT = 15;
-const DETAIL_LAYOUT_KEY = "artist-portfolio-detail-layout-v6";
+const DETAIL_LAYOUT_KEY = "artist-portfolio-detail-layout-v9";
 const PROJECT_LIST_SCROLL_KEY = "artist-portfolio-project-list-scroll";
-const DEFAULT_DETAIL_RATIO = { list: 1.8 / 11, caption: 3 / 11 };
 const CLOUDINARY_IMAGE_BASE = "https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto";
 const defaultDetailLayout = () => {
-  const splitterSpace = (window.innerWidth <= 760 ? 12 : 16) / window.innerWidth;
-  const contentWidth = 1 - splitterSpace;
-  return { list: contentWidth * DEFAULT_DETAIL_RATIO.list, caption: contentWidth * DEFAULT_DETAIL_RATIO.caption };
+  return { list: (window.innerWidth <= 760 ? 64 : 100) / window.innerWidth };
 };
 const listedWorks = works.slice(0, DETAIL_LIST_LIMIT);
 let detailResizeHandler = null;
+let homeSlideTimer = null;
 let activeWorkSlug = works[0]?.slug || "";
 
 function clearDetailResizeHandler() {
   if (detailResizeHandler) window.removeEventListener("resize", detailResizeHandler);
   detailResizeHandler = null;
+  if (homeSlideTimer) window.clearInterval(homeSlideTimer);
+  homeSlideTimer = null;
 }
 
 const escapeHTML = (value = "") => String(value).replace(/[&<>"']/g, (char) => ({
@@ -59,13 +59,11 @@ function renderWorkDetail(slug) {
   document.title = `${work.title} — ${artistInfo.name}`;
   const contentSections = work.sections || [];
   const gallery = work.gallery || [];
-  const listMedium = (item) => (item.archiveMaterial || item.format || item.medium || "—").split(/[,，·]/)[0].trim();
   const renderListRows = () => {
     return listedWorks.map((item) => {
       const thumbnail = item.homeImage || "";
-      return `<button class="project-list-item${item.slug === work.slug ? " is-current" : ""}" type="button" data-work-slug="${escapeHTML(item.slug)}" aria-label="${escapeHTML(item.title)} · ${escapeHTML(item.year || "—")} · ${escapeHTML(listMedium(item))} 상세 보기">
+      return `<button class="project-list-item${item.slug === work.slug ? " is-current" : ""}" type="button" data-work-slug="${escapeHTML(item.slug)}" aria-label="${escapeHTML(item.title)} 상세 보기">
         <span class="project-list-thumb" aria-hidden="true">${thumbnail ? `<img src="${escapeHTML(optimizedImageURL(thumbnail, item.slug === "work-01"))}" alt="" loading="lazy" />` : ""}</span>
-        <span class="project-list-meta"><span class="project-list-title">${escapeHTML(item.title)}</span><span class="project-list-year">${escapeHTML(item.year || "")}</span><span class="project-list-caption">${escapeHTML(listMedium(item))}</span></span>
       </button>`;
     }).join("");
   };
@@ -99,7 +97,9 @@ function renderWorkDetail(slug) {
     <button class="lightbox-nav lightbox-next" type="button" aria-label="다음 이미지">→</button>
   </div>` : "";
   const videoPlayerMarkup = work.video && work.medium === "video" ? `<div class="detail-video-player">${videoEmbed(work.video, work)}</div>` : "";
-  const centralMedia = `<div class="detail-feature"><div class="video-stage">${projectMedia(work)}</div></div>${videoPlayerMarkup}${galleryMarkup}`;
+  const centralMedia = work.video && work.medium === "video"
+    ? `${videoPlayerMarkup}${galleryMarkup}`
+    : `<div class="detail-feature"><div class="video-stage">${projectMedia(work)}</div></div>${galleryMarkup}`;
   const existingProjectList = app.querySelector(".project-list");
   let existingListScrollTop = existingProjectList?.scrollTop;
   if (!Number.isFinite(existingListScrollTop)) {
@@ -126,7 +126,7 @@ function renderWorkDetail(slug) {
           ${work.description ? `<div class="project-description">${work.description.split(/\n\s*\n/).map((paragraph) => `<p>${escapeHTML(paragraph).replace(/\n/g, " ")}</p>`).join("")}</div>` : ""}
         </header>
       </aside>
-      <div class="pane-splitter" role="separator" aria-orientation="vertical" aria-label="캡션과 작업 이미지 사이 너비 조절" tabindex="0" data-splitter="caption" title="드래그해 너비 조절 · 더블클릭해 기본값으로"></div>
+      <div class="pane-splitter pane-splitter-fixed" aria-hidden="true" data-splitter="caption"></div>
       <section class="project-main" aria-label="작업 이미지">
         ${centralMedia}
       </section>
@@ -180,60 +180,58 @@ function renderWorkDetail(slug) {
   const readLayout = () => {
     try {
       const saved = JSON.parse(localStorage.getItem(DETAIL_LAYOUT_KEY) || "null");
-      if (saved && Number.isFinite(saved.list) && Number.isFinite(saved.caption)) return saved;
+      if (saved && Number.isFinite(saved.list)) return { list: saved.list };
     } catch (_) {}
     return defaultDetailLayout();
   };
   let paneLayout = readLayout();
   const applyLayout = () => {
     projectLayout.style.setProperty("--detail-list-size", `${paneLayout.list * 100}vw`);
-    projectLayout.style.setProperty("--detail-caption-size", `${paneLayout.caption * 100}vw`);
+    document.documentElement.style.setProperty("--detail-list-size", `${paneLayout.list * 100}vw`);
     projectLayout.querySelectorAll(".pane-splitter").forEach((splitter) => {
-      const position = splitter.dataset.splitter === "list" ? paneLayout.list : paneLayout.list + paneLayout.caption;
-      splitter.setAttribute("aria-valuenow", String(Math.round(position * 100)));
-      splitter.setAttribute("aria-valuemin", "10");
-      splitter.setAttribute("aria-valuemax", "90");
+      if (splitter.dataset.splitter === "list") {
+        splitter.setAttribute("aria-valuenow", String(Math.round(paneLayout.list * 100)));
+        splitter.setAttribute("aria-valuemin", "6");
+        splitter.setAttribute("aria-valuemax", "25");
+      }
     });
   };
-  const clampLayout = (list, caption) => {
+  const clampLayout = (list) => {
     const narrow = window.innerWidth <= 760;
     const minList = (narrow ? 64 : 100) / window.innerWidth;
-    const minCaption = (narrow ? 70 : 150) / window.innerWidth;
-    const splitterSpace = (narrow ? 12 : 16) / window.innerWidth;
-    const minImages = (narrow ? 80 : 250) / window.innerWidth + splitterSpace;
-    list = Math.max(minList, Math.min(list, 1 - minImages - caption));
-    caption = Math.max(minCaption, Math.min(caption, 1 - minImages - list));
-    return { list, caption };
+    const splitterSpace = (narrow ? 28 : 48) / window.innerWidth;
+    const minCaption = (narrow ? 0 : 150) / window.innerWidth;
+    const fixedImageSize = .6;
+    const maxList = Math.max(minList, 1 - splitterSpace - minCaption - fixedImageSize);
+    return { list: Math.max(minList, Math.min(list, maxList)) };
   };
-  paneLayout = clampLayout(paneLayout.list, paneLayout.caption);
+  paneLayout = clampLayout(paneLayout.list);
   applyLayout();
   detailResizeHandler = () => {
-    paneLayout = clampLayout(paneLayout.list, paneLayout.caption);
+    paneLayout = clampLayout(paneLayout.list);
     applyLayout();
   };
   window.addEventListener("resize", detailResizeHandler);
   const resetPane = (name) => {
+    if (name !== "list") return;
     const defaults = defaultDetailLayout();
-    paneLayout = clampLayout(
-      name === "list" ? defaults.list : paneLayout.list,
-      name === "caption" ? defaults.caption : paneLayout.caption
-    );
+    paneLayout = clampLayout(defaults.list);
     applyLayout();
     try { localStorage.setItem(DETAIL_LAYOUT_KEY, JSON.stringify(paneLayout)); } catch (_) {}
   };
   app.querySelectorAll(".pane-splitter").forEach((splitter) => {
     const name = splitter.dataset.splitter;
+    if (name === "caption") return;
     splitter.addEventListener("pointerdown", (event) => {
       if (event.button !== 0) return;
       event.preventDefault();
       const startX = event.clientX;
       const startList = paneLayout.list;
-      const startCaption = paneLayout.caption;
       document.body.classList.add("resizing-detail-panes");
       splitter.setPointerCapture?.(event.pointerId);
       const onMove = (moveEvent) => {
         const delta = (moveEvent.clientX - startX) / window.innerWidth;
-        paneLayout = clampLayout(startList + (name === "list" ? delta : 0), startCaption + (name === "caption" ? delta : 0));
+        paneLayout = clampLayout(startList + delta);
         applyLayout();
       };
       const onUp = () => {
@@ -257,7 +255,7 @@ function renderWorkDetail(slug) {
       if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
       event.preventDefault();
       const delta = (event.key === "ArrowRight" ? 1 : -1) * 12 / window.innerWidth;
-      paneLayout = clampLayout(paneLayout.list + (name === "list" ? delta : 0), paneLayout.caption + (name === "caption" ? delta : 0));
+      paneLayout = clampLayout(paneLayout.list + delta);
       applyLayout();
       try { localStorage.setItem(DETAIL_LAYOUT_KEY, JSON.stringify(paneLayout)); } catch (_) {}
     });
@@ -316,6 +314,20 @@ function renderInfo() {
       <p>${escapeHTML(artistInfo.introduction)}</p>
       <div class="contact-links"><a href="mailto:${escapeHTML(artistInfo.email)}">${escapeHTML(artistInfo.email)} ↗</a>${instagram}${youtube}</div>
     </section>`;
+  const slides = works.filter((work) => work.homeImage);
+  const mainPane = app.querySelector(".project-main");
+  if (slides.length) {
+    mainPane.innerHTML = `<div class="home-slideshow" aria-label="작품 이미지 슬라이드">
+      ${slides.map((work, index) => `<img class="home-slide${index === 0 ? " is-active" : ""}" src="${escapeHTML(optimizedImageURL(work.homeImage, work.slug === "work-01"))}" alt="${escapeHTML(work.title)}" loading="lazy" />`).join("")}
+    </div>`;
+    const slideImages = [...mainPane.querySelectorAll(".home-slide")];
+    let slideIndex = 0;
+    homeSlideTimer = window.setInterval(() => {
+      slideImages[slideIndex].classList.remove("is-active");
+      slideIndex = (slideIndex + 1) % slideImages.length;
+      slideImages[slideIndex].classList.add("is-active");
+    }, 10000);
+  }
   setActiveNav("info");
 }
 
@@ -364,7 +376,7 @@ function setActiveNav(name) {
 document.querySelector('[data-nav="work"]').addEventListener("click", (event) => {
   if (location.hash === "#work") {
     event.preventDefault();
-    renderWorkDetail(works[0]?.slug || "");
+    renderInfo();
   }
 });
 
@@ -373,7 +385,7 @@ function renderRoute() {
   if (page === "info") renderInfo();
   else if (page === "archive") renderArchive();
   else if (page === "work" && slug) renderWorkDetail(slug);
-  else if (!page) renderInfo();
+  else if (!page || page === "work") renderInfo();
   else renderWorkDetail(works[0]?.slug || "");
 }
 
