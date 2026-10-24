@@ -1,8 +1,8 @@
 const app = document.querySelector("#app");
-const year = document.querySelector("#year");
 const DETAIL_LIST_LIMIT = 15;
-const DETAIL_LAYOUT_KEY = "artist-portfolio-detail-layout-v4";
-const DEFAULT_DETAIL_RATIO = { list: 1 / 11, caption: 3 / 11 };
+const DETAIL_LAYOUT_KEY = "artist-portfolio-detail-layout-v5";
+const PROJECT_LIST_SCROLL_KEY = "artist-portfolio-project-list-scroll";
+const DEFAULT_DETAIL_RATIO = { list: 1.5 / 11, caption: 3 / 11 };
 const CLOUDINARY_IMAGE_BASE = "https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto";
 const defaultDetailLayout = () => {
   const splitterSpace = (window.innerWidth <= 760 ? 12 : 16) / window.innerWidth;
@@ -11,15 +11,12 @@ const defaultDetailLayout = () => {
 };
 const listedWorks = works.slice(0, DETAIL_LIST_LIMIT);
 let detailResizeHandler = null;
-let preservedProjectListScroll = null;
+let activeWorkSlug = works[0]?.slug || "";
 
 function clearDetailResizeHandler() {
   if (detailResizeHandler) window.removeEventListener("resize", detailResizeHandler);
   detailResizeHandler = null;
 }
-year.textContent = new Date().getFullYear();
-document.querySelector("#artist-name").textContent = artistInfo.name;
-document.querySelector("#footer-artist-name").textContent = artistInfo.name;
 
 const escapeHTML = (value = "") => String(value).replace(/[&<>"']/g, (char) => ({
   "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
@@ -41,58 +38,37 @@ function optimizedImageURL(src = "", rotate = false) {
   return value;
 }
 
-function posterMarkup(work, extraClass = "", image = work.poster, rotate = false) {
-  const classes = `poster ${escapeHTML(work.artwork || "")}${image ? " has-poster" : ""}${extraClass ? ` ${extraClass}` : ""}`;
-  if (image) return `<img class="${classes}" src="${escapeHTML(optimizedImageURL(image, rotate))}" alt="" aria-hidden="true" loading="lazy" />`;
-  return `<div class="${classes}" aria-hidden="true"></div>`;
+function imageMarkup(image, rotate = false) {
+  return `<img class="work-image" src="${escapeHTML(optimizedImageURL(image, rotate))}" alt="" aria-hidden="true" loading="lazy" />`;
 }
 
 function videoEmbed(url, work) {
-  if (!url) {
-    const poster = work.poster ? ` poster="${escapeHTML(optimizedImageURL(work.poster))}"` : "";
-    return `<video class="video-frame"${poster} controls playsinline preload="metadata" aria-label="${escapeHTML(work.title)} 영상"></video>`;
-  }
-  if (/\.(mp4|m4v|mov|webm|ogg)(?:$|[?#])/i.test(url)) {
-    return `<video class="video-frame" src="${escapeHTML(url)}" controls playsinline preload="metadata" aria-label="${escapeHTML(work.title)} 영상"></video>`;
-  }
-  let embed = url;
-  const youtube = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([\w-]+)/) || (/^[\w-]{11}$/.test(url) ? [url, url] : null);
-  const vimeo = url.match(/vimeo\.com\/(?:video\/)?(\d+)/);
-  if (youtube) embed = `https://youtube-nocookie.com/embed/${youtube[1]}`;
-  else if (vimeo) embed = `https://player.vimeo.com/video/${vimeo[1]}`;
-  return `<iframe class="video-frame" src="${escapeHTML(embed)}" title="${escapeHTML(work.title)} 영상" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen=""></iframe>`;
+  return `<iframe class="video-frame" src="${escapeHTML(url)}" title="${escapeHTML(work.title)} 영상" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`;
 }
 
 function projectMedia(work) {
-  const image = work.poster || work.homeImage;
-  if (!image && work.medium === "video" && !work.video) return videoEmbed("", work);
-  return `<div class="still-stage">${posterMarkup(work, "still-poster", image, work.slug === "work-01")}</div>`;
+  return `<div class="still-stage">${work.homeImage ? imageMarkup(work.homeImage, work.slug === "work-01") : ""}</div>`;
 }
 
 function renderWorkDetail(slug) {
   clearDetailResizeHandler();
   const work = works.find((item) => item.slug === slug);
   if (!work) return renderNotFound();
+  activeWorkSlug = work.slug;
   document.body.classList.add("detail-open");
   document.title = `${work.title} — ${artistInfo.name}`;
-  const materials = (work.materials || []).slice(0, 4).map((src) => `<figure class="material"><img src="${escapeHTML(optimizedImageURL(src))}" alt="${escapeHTML(work.title)} 작업 자료" loading="lazy" /></figure>`).join("");
   const contentSections = work.sections || [];
   const gallery = work.gallery || [];
   const listMedium = (item) => (item.archiveMaterial || item.format || item.medium || "—").split(/[,，·]/)[0].trim();
   const renderListRows = () => {
     return listedWorks.map((item) => {
-      const thumbnail = item.homeImage || item.poster || "";
-      return `<button class="project-list-item${item.slug === work.slug ? " is-current" : ""}" type="button" data-work-slug="${escapeHTML(item.slug)}" aria-label="${escapeHTML(item.title)} 상세 보기">
+      const thumbnail = item.homeImage || "";
+      return `<button class="project-list-item${item.slug === work.slug ? " is-current" : ""}" type="button" data-work-slug="${escapeHTML(item.slug)}" aria-label="${escapeHTML(item.title)} · ${escapeHTML(item.year || "—")} · ${escapeHTML(listMedium(item))} 상세 보기">
         <span class="project-list-thumb" aria-hidden="true">${thumbnail ? `<img src="${escapeHTML(optimizedImageURL(thumbnail, item.slug === "work-01"))}" alt="" loading="lazy" />` : ""}</span>
-        <span class="project-list-meta">
-          <span class="project-list-title">${escapeHTML(item.title)}</span>
-          <span class="project-list-year">${escapeHTML(item.year || "—")}</span>
-          <span class="project-list-medium">${escapeHTML(listMedium(item))}</span>
-        </span>
       </button>`;
     }).join("");
   };
-  const primaryImage = work.poster || work.homeImage || "";
+  const primaryImage = work.homeImage || "";
   const imageItems = primaryImage
     ? [{ src: primaryImage, name: "대표 이미지" }, ...gallery.filter((src) => src !== primaryImage).map((item) => {
       const src = typeof item === "string" ? item : item.src;
@@ -123,6 +99,11 @@ function renderWorkDetail(slug) {
   </div>` : "";
   const videoPlayerMarkup = work.video && work.medium === "video" ? `<div class="detail-video-player">${videoEmbed(work.video, work)}</div>` : "";
   const centralMedia = `<div class="detail-feature"><div class="video-stage">${projectMedia(work)}</div></div>${videoPlayerMarkup}${galleryMarkup}`;
+  const existingProjectList = app.querySelector(".project-list");
+  let existingListScrollTop = existingProjectList?.scrollTop;
+  if (!Number.isFinite(existingListScrollTop)) {
+    try { existingListScrollTop = Number(sessionStorage.getItem(PROJECT_LIST_SCROLL_KEY)) || 0; } catch (_) { existingListScrollTop = 0; }
+  }
   app.innerHTML = `
     <section class="project-layout" aria-label="${escapeHTML(work.title)}">
       <nav class="project-list" aria-label="작품 목록">
@@ -141,39 +122,32 @@ function renderWorkDetail(slug) {
         <header class="caption">
           <h1>${escapeHTML(work.title)}</h1>
           <p class="caption-meta">${escapeHTML(work.year)}${work.format ? ` · ${escapeHTML(work.format)}` : ""}</p>
-          ${work.role ? `<p class="caption-meta">${escapeHTML(work.role)}</p>` : ""}
-          ${work.description ? `<p class="project-description">${escapeHTML(work.description).replace(/\n/g, "<br>")}</p>` : ""}
+          ${work.description ? `<div class="project-description">${work.description.split(/\n\s*\n/).map((paragraph) => `<p>${escapeHTML(paragraph).replace(/\n/g, " ")}</p>`).join("")}</div>` : ""}
         </header>
-        ${materials ? `<div class="materials">${materials}</div>` : ""}
       </aside>
       <div class="pane-splitter" role="separator" aria-orientation="vertical" aria-label="캡션과 작업 이미지 사이 너비 조절" tabindex="0" data-splitter="caption" title="드래그해 너비 조절 · 더블클릭해 기본값으로"></div>
-      <section class="project-main gallery-scroll" aria-label="작업 이미지">
+      <section class="project-main" aria-label="작업 이미지">
         ${centralMedia}
       </section>
     </section>
     ${lightboxMarkup}`;
-  const openProject = (targetSlug) => {
-    const target = `#work/${encodeURIComponent(targetSlug)}`;
-    if (location.hash === target) return;
-    preservedProjectListScroll = projectList.scrollTop;
-    location.hash = target;
-  };
-  const projectList = app.querySelector(".project-list");
-  if (preservedProjectListScroll !== null) {
-    projectList.scrollTop = preservedProjectListScroll;
-    preservedProjectListScroll = null;
+  const newProjectList = app.querySelector(".project-list");
+  if (existingProjectList) {
+    newProjectList.replaceWith(existingProjectList);
+    existingProjectList.scrollTop = existingListScrollTop;
+    existingProjectList.querySelectorAll("[data-work-slug]").forEach((button) => {
+      button.classList.toggle("is-current", button.dataset.workSlug === work.slug);
+    });
+    requestAnimationFrame(() => { existingProjectList.scrollTop = existingListScrollTop; });
+  } else {
+    newProjectList.addEventListener("click", (event) => {
+      const button = event.target.closest("[data-work-slug]");
+      if (button) {
+        try { sessionStorage.setItem(PROJECT_LIST_SCROLL_KEY, String(newProjectList.scrollTop)); } catch (_) {}
+        location.hash = `#work/${encodeURIComponent(button.dataset.workSlug)}`;
+      }
+    });
   }
-  projectList.addEventListener("click", (event) => {
-    const button = event.target.closest("[data-work-slug]");
-    if (button) openProject(button.dataset.workSlug);
-  });
-  projectList.addEventListener("keydown", (event) => {
-    if (event.key !== "Enter") return;
-    const button = event.target.closest("[data-work-slug]");
-    if (!button) return;
-    event.preventDefault();
-    openProject(button.dataset.workSlug);
-  });
   if (contentSections.length) {
     const contentDisplay = app.querySelector("#project-content-display");
     const contentButtons = [...app.querySelectorAll(".project-content-item")];
@@ -330,39 +304,45 @@ function renderWorkDetail(slug) {
 }
 
 function renderInfo() {
-  clearDetailResizeHandler();
-  document.body.classList.remove("detail-open");
+  renderWorkDetail(activeWorkSlug);
   document.title = `Info — ${artistInfo.name}`;
   const instagram = artistInfo.instagram ? `<a href="${escapeHTML(artistInfo.instagram)}" target="_blank" rel="noreferrer">Instagram ↗</a>` : "";
   const youtube = artistInfo.youtube ? `<a href="${escapeHTML(artistInfo.youtube)}" target="_blank" rel="noreferrer">YouTube ↗</a>` : "";
-  app.innerHTML = `
-    <section class="info-page">
-      <h1>${escapeHTML(artistInfo.infoName || artistInfo.name)}</h1>
-      <div class="info-content">
-        <p>${escapeHTML(artistInfo.education)}<br><br>${escapeHTML(artistInfo.introduction).replace(/\n/g, "<br>")}</p>
-        <div class="contact-links"><a href="mailto:${escapeHTML(artistInfo.email)}">${escapeHTML(artistInfo.email)} ↗</a>${instagram}${youtube}</div>
-      </div>
+  app.querySelector(".project-info").innerHTML = `
+    <section class="embedded-info" aria-label="작가 정보">
+      <h1>${escapeHTML(artistInfo.infoName)}</h1>
+      <p class="embedded-info-education">${escapeHTML(artistInfo.education)}</p>
+      <p>${escapeHTML(artistInfo.introduction)}</p>
+      <div class="contact-links"><a href="mailto:${escapeHTML(artistInfo.email)}">${escapeHTML(artistInfo.email)} ↗</a>${instagram}${youtube}</div>
     </section>`;
   setActiveNav("info");
 }
 
 function renderArchive() {
-  clearDetailResizeHandler();
-  document.body.classList.remove("detail-open");
+  renderWorkDetail(activeWorkSlug);
   document.title = `Archive — ${artistInfo.name}`;
-  app.innerHTML = `
-    <section class="archive-page" aria-label="작업 아카이브">
-      <div class="archive-list">
-        ${works.map((work) => `
-          <a class="archive-row" href="#work/${encodeURIComponent(work.slug)}">
-            <span>${escapeHTML(work.title)}</span>
-            <span>${escapeHTML(work.year || "—")}</span>
-            <span>${escapeHTML(work.archiveMaterial || work.format || "—")}</span>
-            <span>${escapeHTML(work.size || "—")}</span>
-            <span>${escapeHTML(work.timeline || "—")}</span>
-          </a>`).join("")}
-      </div>
-    </section>`;
+  const index = app.querySelector(".project-info");
+  const articlePane = app.querySelector(".project-main");
+  const renderArticle = (selectedIndex) => {
+    const article = archiveTexts[selectedIndex];
+    index.querySelectorAll("[data-article-index]").forEach((button, buttonIndex) => {
+      button.classList.toggle("is-current", buttonIndex === selectedIndex);
+      button.setAttribute("aria-current", String(buttonIndex === selectedIndex));
+    });
+    articlePane.innerHTML = `<article class="archive-article" aria-label="${escapeHTML(article.title)}">
+      <time datetime="20${escapeHTML(article.date.replaceAll(".", "-"))}">${escapeHTML(article.date)}</time>
+      <div class="archive-article-body">${article.text.split(/\n\s*\n/).map((paragraph) => `<p>${escapeHTML(paragraph).replace(/\n/g, " ")}</p>`).join("")}</div>
+    </article>`;
+    articlePane.scrollTop = 0;
+  };
+  index.innerHTML = `<nav class="archive-text-list" aria-label="글 목록">
+    ${archiveTexts.map((article, articleIndex) => `<button class="archive-text-item${articleIndex === 0 ? " is-current" : ""}" type="button" data-article-index="${articleIndex}" aria-current="${articleIndex === 0}">${escapeHTML(article.title)}</button>`).join("")}
+  </nav>`;
+  index.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-article-index]");
+    if (button) renderArticle(Number(button.dataset.articleIndex));
+  });
+  renderArticle(0);
   setActiveNav("archive");
 }
 

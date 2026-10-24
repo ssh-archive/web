@@ -1,107 +1,80 @@
 # 송승후 작가 포트폴리오
 
-별도 설치 없이 브라우저에서 열 수 있는 정적 웹사이트입니다. 작품 정보와 텍스트는 `works.js`, 화면 배치와 동작은 `app.js`, 디자인은 `styles.css`에서 관리합니다.
+설치가 필요 없는 정적 사이트입니다. 작품과 작가 정보는 `works.js`, 화면 동작은 `app.js`, 스타일은 `styles.css`에서 편집합니다.
 
-## 시작하기
+## 실행
 
-1. 이 폴더를 VS Code에서 엽니다.
-2. `index.html`을 Live Server 같은 로컬 웹 서버로 엽니다. YouTube iframe은 `file://`로 직접 열면 요청에 HTTP Referer가 포함되지 않아 재생 오류 153이 발생할 수 있습니다. YouTube 플레이어는 Referer 또는 이에 준하는 클라이언트 식별 정보를 요구합니다.
+`index.html`을 Live Server 같은 로컬 웹 서버로 여세요. `file://`로 직접 열면 YouTube가 Referer를 받지 못해 영상 재생을 막을 수 있습니다.
 
-## 작품 정보와 순서 수정하기
+## 작품 추가와 수정
 
-`works.js`의 `window.works` 배열에 작품이 한 개씩 들어 있습니다. 작품을 추가할 때는 기존 작품 객체 하나를 복사하고, 배열 안에서 원하는 순서에 붙여 넣으세요.
+`works.js` 위쪽의 `window.works` 배열에 있는 작품 객체를 복사해 추가하고, 표시 순서는 배열에서 바꿉니다. 상세 왼쪽 목록에는 앞에서부터 15개가 표시됩니다. 아카이브 글은 같은 파일 아래쪽의 `window.archiveTexts` 배열에서 관리합니다.
 
-작품 객체에서 자주 바꾸는 항목은 다음과 같습니다.
+주로 편집할 항목:
 
-| 항목 | 쓰임 |
+| 항목 | 설명 |
 | --- | --- |
-| `slug` | 작품 주소. 각 작품마다 서로 다른 값이어야 합니다. 예: `work-16` |
-| `title` | 작품 제목 |
-| `year` | 제작 연도 |
-| `archiveMaterial` | 목록과 아카이브에 표시할 매체. 작품 목록에는 쉼표나 가운데점 앞의 첫 매체만 표시합니다. |
-| `format` | 상세 캡션에 표시할 재료·형식·크기 설명 |
-| `description` | 상세페이지 캡션 글 |
-| `role` | 작업 역할 또는 크레딧 |
-| `medium` | 종류. `image`, `video`, `text` 중 하나를 씁니다. 영상 작품은 `video`로 설정합니다. |
-| `poster` | 작품 상세페이지의 대표 이미지. 이미지 작품에서 사용합니다. |
-| `homeImage` | 메인 상세페이지 왼쪽 작품 목록의 썸네일. 영상에 포스터가 없을 때 대표 이미지로도 사용합니다. |
-| `video` | YouTube/Vimeo 주소 또는 동영상 파일 경로 |
-| `gallery` | 상세페이지 대표 이미지 아래 그리드에 넣을 추가 이미지 목록 |
-| `materials` | 캡션 아래에 보여줄 보조 이미지 목록. 최대 네 장입니다. |
-| `sections` | 작품 캡션 위에서 선택해 볼 글·자료 항목. 작품별로 따로 지정하는 선택 항목입니다. |
+| `slug` | 작품별 고유 주소. 예: `work-16` |
+| `title`, `year` | 작품 제목과 연도 |
+| `archiveMaterial` | 작품 데이터의 매체 정보 |
+| `format` | 상세 캡션의 매체·형식 |
+| `description` | 상세 설명. 문단은 `\n\n`으로 나눕니다. |
+| `medium` | 이미지 작업은 `image`, 영상 작업은 `video` |
+| `homeImage` | 목록 썸네일이자 상세 대표 이미지 |
+| `gallery` | 대표 이미지 다음에 표시할 상세 이미지 경로 배열 |
+| `video` | 영상의 YouTube `/embed/영상ID` 주소 |
+| `sections` | 작품별 글·자료 목록. 필요할 때만 추가합니다. |
 
-작가 이름과 자기소개는 같은 파일 아래쪽의 `window.artistInfo`에서 수정합니다. 이메일과 인스타그램 주소도 이곳에 있습니다.
-
-## 이미지와 영상 추가하기
-
-작품별 이미지 경로는 `works.js`에 유지합니다. 화면은 경로의 파일명만 Cloudinary 주소로 변환해 불러오므로 웹사이트 폴더 안에 원본 이미지 파일을 둘 필요가 없습니다. Cloudinary의 Public ID가 파일명과 확장자가 같아야 합니다.
-
-예를 들어 데이터에는 아래와 같이 기존 경로를 기록할 수 있습니다. 실제로는 파일명 `work-01-map-of-senses.png`만 Cloudinary에 전달됩니다.
-
-```text
-assets/work-01-map-of-senses/work-01-map-of-senses.png
-```
-
-새 이미지를 추가할 때 작품 객체의 이미지 경로에는 기존처럼 경로와 파일명을 적습니다. 로컬 파일 없이도 해당 파일명으로 Cloudinary 주소를 구성합니다.
+예시:
 
 ```js
-poster: "assets/work-16-new-work/work-16-new-work.jpg",
-homeImage: "assets/work-16-new-work/work-16-new-work.jpg",
-gallery: [
-  "assets/work-16-new-work/detail-01.jpg",
-  "assets/work-16-new-work/detail-02.jpg"
-],
+{
+  slug: "work-16",
+  title: "새 작업",
+  year: "2026",
+  archiveMaterial: "디지털 프린트",
+  format: "디지털 프린트",
+  description: "작품 설명을 입력합니다.",
+  medium: "image",
+  homeImage: "assets/work-16-new-work/work-16-new-work.jpg",
+  gallery: [
+    "assets/work-16-new-work/detail-01.jpg",
+    "assets/work-16-new-work/detail-02.jpg"
+  ]
+}
 ```
 
-이미지 URL은 `app.js`의 `optimizedImageURL()`이 자동 구성합니다. 설정된 주소는 `https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/파일명`입니다. 대표 이미지, 썸네일, 상세 그리드, 캡션 자료는 모두 이 변환을 거치며, 모든 이미지 요소는 `loading="lazy"`로 화면에 가까워질 때 불러옵니다. `f_auto,q_auto`가 이미지 포맷과 품질을 자동 최적화합니다. Cloudinary 전달 주소는 `https://cloudinary.com` 단독이 아니라 계정명과 `/image/upload/` 경로를 포함해야 합니다.
+작품 목록은 `app.js`의 `DETAIL_LIST_LIMIT` 값으로 조절합니다. 새 작품을 왼쪽 목록에도 표시하려면 이 값을 늘리거나 작품을 앞에서 15개 안에 배치하세요. 왼쪽 목록, 캡션, 이미지 영역의 기본 너비 비율은 `DEFAULT_DETAIL_RATIO`에서 바꿉니다. 화면에서 경계를 드래그해 너비를 조절할 수도 있습니다.
 
-`gallery`에는 대표 이미지가 아닌 추가 이미지만 넣으세요. 상세 이미지 그리드는 대표 이미지와 추가 이미지를 합쳐 두 장 이상일 때 표시됩니다. 대표 이미지가 한 장뿐이면 그리드를 만들지 않습니다. 이미지를 누르면 투명한 오버레이 팝업으로 크게 볼 수 있고, 좌우 버튼이나 키보드 화살표로 이동합니다.
+## 이미지와 영상
 
-## 작품별 글과 자료 항목 추가하기
+이미지는 웹사이트 폴더에 복사하지 않습니다. `works.js`에는 기존처럼 경로와 파일명을 적으면 `app.js`가 파일명만 사용해 Cloudinary 주소를 만듭니다. Cloudinary에 올린 Public ID와 파일명이 정확히 일치해야 합니다. 자동 변환 주소에는 `f_auto,q_auto`가 포함되고, 이미지 태그는 `loading="lazy"`로 로드됩니다.
 
-상세페이지 가운데 캡션 위에 작품별 항목 목록을 표시하려면 해당 작품 객체에 `sections`를 추가합니다. 작품마다 항목이 독립되어 있으므로 다른 작품에는 자동으로 나타나지 않습니다. 배열 순서대로 목록에 표시되고, 항목을 누르면 그 항목의 글과 이미지가 목록 아래, 기본 작품 캡션 위에 나옵니다. 항목 목록은 가운데 영역 안에서 따로 스크롤됩니다.
+`homeImage`는 대표 이미지 한 장이고, `gallery`에는 추가 이미지만 넣습니다. 대표 이미지와 추가 이미지가 두 장 이상일 때 오른쪽에 5열 그리드가 나타납니다. 이미지를 누르면 팝업에서 좌우 이동할 수 있습니다. 감각의 지도와 나는 시시하게 보고 지나쳤다의 회전 표시는 `app.js`의 `rotateGalleryImage`에서 관리합니다.
 
-원하는 작품 객체에 아래 예시처럼 `sections`를 추가하고 제목, 글, 자료 이미지 경로를 입력합니다.
+영상은 아래처럼 YouTube embed 주소를 넣습니다. iframe에는 `referrerpolicy="strict-origin-when-cross-origin"`이 이미 설정되어 있습니다.
+
+```js
+medium: "video",
+video: "https://www.youtube.com/embed/영상ID",
+homeImage: "assets/work-16-new-work/cover.jpg"
+```
+
+작품별 캡션 위에 선택 항목을 만들려면 `sections`를 추가합니다. 각 항목에는 `title`, `text`, `images`를 넣을 수 있습니다.
 
 ```js
 sections: [
-  {
-    title: "작업을 위한 텍스트 1",
-    text: "여기에 글을 입력합니다. 줄바꿈도 표시됩니다.",
-    images: [
-      "assets/work-15-trivial-glance/text-01-image-01.jpg"
-    ]
-  },
-  {
-    title: "작업을 위한 텍스트 2",
-    text: "두 번째 항목의 글입니다.",
-    images: []
-  }
-],
+  { title: "자료 제목", text: "자료 글", images: ["assets/work-16-new-work/note.jpg"] }
+]
 ```
 
-글만 넣을 때는 `images: []`로 두고, 이미지 자료만 넣을 때는 `text: ""`로 둡니다. `images`에는 이미지 경로 문자열을 여러 개 넣을 수 있습니다. 경로에서 파일명만 Cloudinary로 전달하므로 해당 Public ID가 있어야 합니다. 항목에 글과 이미지가 모두 없으면 페이지에 입력 안내 문구가 표시됩니다. 이 기능을 쓰지 않는 작품은 `sections`를 생략하면 목록이 나타나지 않습니다.
+작가 이름과 소개, 연락처, 유튜브 주소는 `works.js` 아래쪽 `window.artistInfo`에서 수정합니다. Info를 누르면 작가 정보가 가운데 영역에 표시되고, 오른쪽에는 현재 선택된 작업 이미지가 유지됩니다.
 
-영상 작품은 `medium: "video"`와 `video` 주소를 지정합니다. 목록 썸네일과 이미지 그리드에 들어갈 이미지는 `homeImage`에 지정합니다. YouTube/Vimeo 주소 또는 mp4 파일을 쓸 수 있습니다.
-
-## 상세페이지와 목록 규칙
-
-- 사이트 첫 화면은 배열의 첫 작품 상세페이지입니다. 왼쪽 작품 목록, 가운데 캡션, 오른쪽 작업 이미지 영역의 3열을 메인 레이아웃으로 사용합니다. 왼쪽 위 작가 이름을 누르면 첫 작품으로 돌아갑니다.
-- 작품 목록은 `works.js` 배열의 처음 15개 항목을 표시합니다. 순서를 바꾸려면 배열의 작품 객체 순서를 바꾸세요. 목록 표시 개수는 `app.js` 위쪽의 `DETAIL_LIST_LIMIT` 값에서 바꿉니다. 16번째 이후 작품 데이터는 삭제되지 않으며 아카이브와 직접 주소에서 계속 사용할 수 있습니다.
-- 왼쪽 목록은 큰 썸네일을 세로로 쌓은 카드형 목록이며, 각 이미지 아래에는 제목·연도·매체만 표시됩니다. 정렬 머리글은 없습니다. 이미지 비율을 유지해 썸네일을 자르지 않습니다.
-- 목록은 왼쪽 영역 안에서 세로로 스크롤됩니다. 작품 카드를 누르면 해당 작품의 캡션과 이미지가 열립니다. 키보드에서는 카드에 포커스한 뒤 Enter를 누릅니다.
-- 기본 영역 비율은 왼쪽 목록:캡션:이미지가 1:3:7입니다. 열 경계를 조절하면 값이 브라우저에 저장되고, 새 기본 비율은 새 레이아웃 설정 키로 적용됩니다.
-- 세 영역 사이의 세로 경계를 드래그해 각 칸의 너비를 조절할 수 있습니다. 너비 설정은 이 브라우저에 저장됩니다. 경계를 더블클릭하면 해당 칸을 기본 너비로 되돌리고, 키보드로 경계를 선택한 뒤 좌우 화살표로 조절하거나 Home으로 초기화할 수 있습니다.
-- 오른쪽 작품 영역은 독립적으로 스크롤됩니다. 대표 이미지 아래에는 이름표 없이 상세 이미지 그리드가 이어집니다. `work-01`의 대표 이미지는 목록 썸네일, 상세 이미지, 그리드에서 세로 방향으로 표시됩니다. `work-15`의 view 03, 04, 05, 06, 07, 08, 14는 가로 방향으로 Cloudinary 회전 변환을 적용합니다.
-- `medium: "video"`인 작품은 `video`에 YouTube 영상 ID 또는 링크를 넣으면 대표 이미지 아래에 기본 플레이어가 나타납니다. 현재 감각의 지도, 뻘짓, 보기 경험 2, 미궁, 태양은 밤에도 빛난다, 인간들의 왕국에 플레이어를 연결했습니다. 작가 YouTube 채널 주소는 Info 화면에만 표시됩니다.
-- 왼쪽 작품 목록은 작품 배열의 처음 15개를 사용합니다. 아카이브 페이지는 배열의 모든 작품을 표시합니다.
+Archive는 가운데 영역에 글 제목만 보여줍니다. 제목을 선택하면 오른쪽 작업 영역에 날짜와 본문이 표시됩니다. 글을 추가하거나 고치려면 `window.archiveTexts`에 `{ title, date, text }` 항목을 추가하세요. `text` 안의 빈 줄은 문단 구분으로 사용됩니다. 현재 예시 글은 `자연을 바라볼때면`입니다.
 
 ## 파일 안내
 
-- `index.html`: 웹페이지의 기본 뼈대와 CSS/JavaScript 연결
-- `works.js`: 작가 정보, 작품 글, 이미지·영상 경로와 작품 순서
-- `app.js`: 페이지 내용 생성, 작품 카드 선택, 이미지 팝업과 이동 기능
-- `styles.css`: 색상, 글자 크기, 열 너비, 간격, 반응형 디자인
-- `assets/`: 로컬 이미지 파일은 사용하지 않습니다. `works.js`의 이미지 경로에서 파일명만 Cloudinary로 전달합니다.
-
-글자 크기와 목록 썸네일 크기·간격을 바꾸려면 `styles.css`의 `--label-size`, `.project-list-rows > .project-list-item`, `.project-list-thumb` 규칙을 찾으세요. 왼쪽 목록·가운데 캡션·오른쪽 이미지 영역의 너비는 각 열 사이 경계를 드래그해 조절할 수 있습니다.
+- `index.html`: 페이지 뼈대와 CSS·JavaScript 연결
+- `works.js`: 작품 데이터와 작가 정보
+- `app.js`: 3영역 레이아웃, 작품·글 화면, Cloudinary 주소 변환, 이미지 팝업
+- `styles.css`: 레이아웃과 디자인
