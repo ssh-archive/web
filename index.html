@@ -1,25 +1,1228 @@
 <!doctype html>
 <html lang="ko">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="referrer" content="strict-origin-when-cross-origin" />
-    <meta name="theme-color" content="#050505" />
-    <meta name="description" content="영상, 글, 사진 작업을 모아 보여주는 작가 포트폴리오." />
-    <title>Song Seunghu — Works</title>
-    <link rel="stylesheet" href="styles.css" />
-    <script src="works.js" defer></script>
-    <script src="app.js" defer></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta name="theme-color" content="#050505">
+    <meta name="description" content="영상, 글, 사진 작업을 모아 보여주는 작가 포트폴리오.">
+    <title>
+      Song Seunghu — Works
+    </title>
+    <link rel="icon" type="image/png" sizes="512x512" href="assets/favicon.png">
+    <link rel="apple-touch-icon" href="assets/favicon.png">
+    <link rel="stylesheet" href="styles.css">
   </head>
   <body>
     <header class="site-header">
-      <a class="site-name" href="#info" data-nav="info">Song Seunghu</a>
       <nav class="top-nav" aria-label="사이트 메뉴">
-        <a class="works-index" href="#work" data-nav="work">works</a>
-        <a href="#archive" data-nav="archive">archive</a>
+        <label class="works-index" for="view-project-map-of-senses">
+          works
+        </label>
+        <label for="view-archive">
+          archive
+        </label>
       </nav>
+      <label class="site-name" for="view-info">
+        Song Seunghu
+      </label>
     </header>
-
-    <main id="app" tabindex="-1"></main>
+    <main id="app">
+      <!-- 화면 선택: 각 라디오 id는 작품 목록의 label for와 연결됩니다. -->
+      <input class="state-input" type="radio" name="page" id="view-info" checked="">
+      <input class="state-input" type="radio" name="page" id="view-archive">
+      <input class="state-input" type="radio" name="page" id="view-project-map-of-senses">
+      <input class="state-input" type="radio" name="page" id="view-project-beoljit">
+      <input class="state-input" type="radio" name="page" id="view-project-digital-lantern">
+      <input class="state-input" type="radio" name="page" id="view-project-viewing-experience-1">
+      <input class="state-input" type="radio" name="page" id="view-project-viewing-experience-2">
+      <input class="state-input" type="radio" name="page" id="view-project-maze">
+      <input class="state-input" type="radio" name="page" id="view-project-city-sea">
+      <input class="state-input" type="radio" name="page" id="view-project-human-nature">
+      <input class="state-input" type="radio" name="page" id="view-project-bugbuster-heatrunner">
+      <input class="state-input" type="radio" name="page" id="view-project-kingdom-of-humans">
+      <input class="state-input" type="radio" name="page" id="view-project-sunlight-at-night">
+      <input class="state-input" type="radio" name="page" id="view-project-viewing-experience-3">
+      <input class="state-input" type="radio" name="page" id="view-project-digital-walker">
+      <input class="state-input" type="radio" name="page" id="view-project-aura-project">
+      <input class="state-input" type="radio" name="page" id="view-project-trivial-glance">
+      <input class="state-input" type="radio" name="archive-entry" id="archive-entry-1" checked="">
+      <section class="project-layout" aria-label="포트폴리오">
+        <!-- 왼쪽 열: 썸네일 순서를 바꾸려면 이 목록의 label 블록을 옮기세요. -->
+        <nav class="project-list" aria-label="작품 목록">
+          <div class="project-list-rows">
+            <label class="project-list-item" for="view-project-map-of-senses" aria-label="감각의 지도">
+              <span class="project-list-thumb">
+                <img src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto,a_90/work-01-map-of-senses.png" alt="감각의 지도" loading="lazy">
+              </span>
+            </label>
+            <label class="project-list-item" for="view-project-beoljit" aria-label="뻘짓">
+              <span class="project-list-thumb">
+                <img src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/work-02-beoljit.png" alt="뻘짓" loading="lazy">
+              </span>
+            </label>
+            <label class="project-list-item" for="view-project-digital-lantern" aria-label="디지털 환등기">
+              <span class="project-list-thumb">
+                <img src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/work-03-digital-lantern.jpeg" alt="디지털 환등기" loading="lazy">
+              </span>
+            </label>
+            <label class="project-list-item" for="view-project-viewing-experience-1" aria-label="보기 경험 1">
+              <span class="project-list-thumb">
+                <img src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/work-04-viewing-experience-1.jpg" alt="보기 경험 1" loading="lazy">
+              </span>
+            </label>
+            <label class="project-list-item" for="view-project-viewing-experience-2" aria-label="보기 경험 2">
+              <span class="project-list-thumb">
+                <img src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/work-05-viewing-experience-2.jpg" alt="보기 경험 2" loading="lazy">
+              </span>
+            </label>
+            <label class="project-list-item" for="view-project-maze" aria-label="미궁">
+              <span class="project-list-thumb">
+                <img src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/work-06-maze.jpg" alt="미궁" loading="lazy">
+              </span>
+            </label>
+            <label class="project-list-item" for="view-project-city-sea" aria-label="도시가 보이는 바다">
+              <span class="project-list-thumb">
+                <img src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/v1792819896/%EB%8F%84%EC%8B%9C%EA%B0%80_%EB%B3%B4%EC%9D%B4%EB%8A%94_%EB%B0%94%EB%8B%A4.jpg" alt="도시가 보이는 바다" loading="lazy">
+              </span>
+            </label>
+            <label class="project-list-item" for="view-project-human-nature" aria-label="인간 . 자연">
+              <span class="project-list-thumb">
+                <img src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/work-08-human-nature.png" alt="인간 . 자연" loading="lazy">
+              </span>
+            </label>
+            <label class="project-list-item" for="view-project-bugbuster-heatrunner" aria-label="Bugbuster Heatrunner">
+              <span class="project-list-thumb">
+                <img src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/work-09-bugbuster-heat-runner.png" alt="Bugbuster Heatrunner" loading="lazy">
+              </span>
+            </label>
+            <label class="project-list-item" for="view-project-kingdom-of-humans" aria-label="인간들의 왕국">
+              <span class="project-list-thumb">
+                <img src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/work-10-human-kingdom.png" alt="인간들의 왕국" loading="lazy">
+              </span>
+            </label>
+            <label class="project-list-item" for="view-project-sunlight-at-night" aria-label="태양은 밤에도 빛난다">
+              <span class="project-list-thumb">
+                <img src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/work-11-sunlight-at-night.jpeg" alt="태양은 밤에도 빛난다" loading="lazy">
+              </span>
+            </label>
+            <label class="project-list-item" for="view-project-viewing-experience-3" aria-label="보기 경험 3">
+              <span class="project-list-thumb">
+                <img src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/work-12-viewing-experience-3.jpg" alt="보기 경험 3" loading="lazy">
+              </span>
+            </label>
+            <label class="project-list-item" for="view-project-digital-walker" aria-label="디지털 산책자">
+              <span class="project-list-thumb">
+                <img src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/work-13-digital-walker.jpg" alt="디지털 산책자" loading="lazy">
+              </span>
+            </label>
+            <label class="project-list-item" for="view-project-aura-project" aria-label="아우라 프로젝트">
+              <span class="project-list-thumb">
+                <img src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/work-14-aura-project.jpg" alt="아우라 프로젝트" loading="lazy">
+              </span>
+            </label>
+            <label class="project-list-item" for="view-project-trivial-glance" aria-label="나는 시시하게 보고 지나쳤다">
+              <span class="project-list-thumb">
+                <img src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/v1792770021/work-15-trivial-glance.jpg" alt="나는 시시하게 보고 지나쳤다" loading="lazy">
+              </span>
+            </label>
+          </div>
+        </nav>
+        <div class="pane-splitter" aria-hidden="true">
+        </div>
+        <!-- 가운데 열: 작가 소개, 아카이브 목록, 작품별 캡션 -->
+        <aside class="project-info" aria-label="작품 캡션">
+          <section class="embedded-info">
+            <h1>
+              송승후
+            </h1>
+            <p class="embedded-info-education">
+              2026년 계원예술대학교 재학
+            </p>
+            <p>
+              송승후는 사진, 영상, 텍스트 등, 현실을 표방하고 흉내 내는 것들에 관심을 가진다. 그러한 복제 매체는 원본 세계와의 괴리감이 생겨나는데, 때로는 현실의 생생함을 눈이 담지 못하여
+              가상처럼 느껴지거나 오히려 저화질 영상이 현실과 닮게 느껴지기도 한다. 그러한 진짜와 가짜가 서로의 영역을 침범하는 순간을 탐구한다.
+            </p>
+            <div class="contact-links">
+              <a href="mailto:hello@example.com">
+                hello@example.com ↗
+              </a>
+              <a href="https://www.youtube.com/@ssh-archive" target="_blank" rel="noreferrer">
+                YouTube ↗
+              </a>
+            </div>
+          </section>
+          <nav class="archive-text-list" aria-label="글 목록">
+            <label class="archive-text-item" for="archive-entry-1">
+              바다 바라보기
+            </label>
+          </nav>
+          <!-- 제목은 h2, 연도와 매체는 caption-meta, 본문은 project-description 안에서 수정 -->
+          <!-- 01 · 감각의 지도 캡션 -->
+          <section class="caption" data-project="map-of-senses" aria-label="감각의 지도 캡션">
+            <h2>
+              감각의 지도
+            </h2>
+            <p class="caption-meta">
+              2025 · 종이에 잉크와 먹, 드로잉 다수
+            </p>
+            <div class="project-description">
+              <p>
+                시각을 중심으로 이미지를 만드는 행위에서 벗어나 청각을 통해 형태를 발견하고자 시도하였다. 이를 통해 시각의 자유를 얻고 시선이 만들어내는 한계를 넘어서보는 연습을 3가지 색과 먹으로
+                제한하여 드로잉을 진행했다.
+              </p>
+              <p>
+                현실에 존재하는 대상에서 벗어나 눈을 감고 소리를 들으며 그에 따른 조형 언어를 만들어보는 작업이다. 실제의 대상을 묘사하지 않고 소리의 형태를 찾고자 해보았다.
+              </p>
+            </div>
+          </section>
+          <!-- 02 · 뻘짓 캡션: 제목, 연도/매체, 설명을 이 구역에서 수정 -->
+          <section class="caption" data-project="beoljit" aria-label="뻘짓 캡션">
+            <h2>
+              뻘짓
+            </h2>
+            <p class="caption-meta">
+              2024 · 비디오
+            </p>
+            <div class="project-description">
+              <p>
+                5명이 갯벌을 가기 전의 생각과 갯벌 안에서 허우적거림을 통해 느낀 것을 적고 각자에게
+                &#39;
+                갯벌과 교감하기
+                &#39;
+                라는 임무를 수행하기 위해 선택한 방식들을 글과 함께 열거한다. 우리는 갯벌과 어떻게 교감하고 이해했는지 에세이 영상을 통해 대답하였다. 갯벌 안에 들어간건 우리인가, 갯벌이 우리를
+                집어삼키는 것일까.
+              </p>
+              <p>
+                촬영/편집: 송승후
+              </p>
+              <p>
+                행위자/연출 : 송승후, 양태희, 양홍서, 정성은, 조사랑
+              </p>
+            </div>
+          </section>
+          <!-- 03 · 디지털 환등기 캡션: 제목, 연도/매체, 설명을 이 구역에서 수정 -->
+          <section class="caption" data-project="digital-lantern" aria-label="디지털 환등기 캡션">
+            <h2>
+              디지털 환등기
+            </h2>
+            <p class="caption-meta">
+              2025 · 비디오
+            </p>
+          </section>
+          <!-- 04 · 보기 경험 1 캡션: 제목, 연도/매체, 설명을 이 구역에서 수정 -->
+          <section class="caption" data-project="viewing-experience-1" aria-label="보기 경험 1 캡션">
+            <h2>
+              보기 경험 1
+            </h2>
+            <p class="caption-meta">
+              2025 · 비디오
+            </p>
+          </section>
+          <!-- 05 · 보기 경험 2 캡션: 제목, 연도/매체, 설명을 이 구역에서 수정 -->
+          <section class="caption" data-project="viewing-experience-2" aria-label="보기 경험 2 캡션">
+            <h2>
+              보기 경험 2
+            </h2>
+            <p class="caption-meta">
+              2025 · 비디오
+            </p>
+          </section>
+          <!-- 06 · 미궁 캡션: 제목, 연도/매체, 설명을 이 구역에서 수정 -->
+          <section class="caption" data-project="maze" aria-label="미궁 캡션">
+            <h2>
+              미궁
+            </h2>
+            <p class="caption-meta">
+              2025 · 비디오
+            </p>
+          </section>
+          <!-- 07 · 도시가 보이는 바다 캡션: 제목, 연도/매체, 설명을 이 구역에서 수정 -->
+          <section class="caption" data-project="city-sea" aria-label="도시가 보이는 바다 캡션">
+            <h2>
+              도시가 보이는 바다
+            </h2>
+            <p class="caption-meta">
+              2025 · 비디오
+            </p>
+          </section>
+          <!-- 08 · 인간 . 자연 캡션: 제목, 연도/매체, 설명을 이 구역에서 수정 -->
+          <section class="caption" data-project="human-nature" aria-label="인간 . 자연 캡션">
+            <h2>
+              인간 . 자연
+            </h2>
+            <p class="caption-meta">
+              2025 · 비디오
+            </p>
+          </section>
+          <!-- 09 · Bugbuster Heatrunner 캡션: 제목, 연도/매체, 설명을 이 구역에서 수정 -->
+          <section class="caption" data-project="bugbuster-heatrunner" aria-label="Bugbuster Heatrunner 캡션">
+            <h2>
+              Bugbuster Heatrunner
+            </h2>
+            <p class="caption-meta">
+              2025 · 비디오
+            </p>
+          </section>
+          <!-- 10 · 인간들의 왕국 캡션: 제목, 연도/매체, 설명을 이 구역에서 수정 -->
+          <section class="caption" data-project="kingdom-of-humans" aria-label="인간들의 왕국 캡션">
+            <h2>
+              인간들의 왕국
+            </h2>
+            <p class="caption-meta">
+              2025 · 비디오
+            </p>
+          </section>
+          <!-- 11 · 태양은 밤에도 빛난다 캡션: 제목, 연도/매체, 설명을 이 구역에서 수정 -->
+          <section class="caption" data-project="sunlight-at-night" aria-label="태양은 밤에도 빛난다 캡션">
+            <h2>
+              태양은 밤에도 빛난다
+            </h2>
+            <p class="caption-meta">
+              2025 · 2채널 영상, 컬러, 사운드, 반복 재생
+            </p>
+            <div class="project-description">
+              <p>
+                인간의 시각적 한계를 느끼고 닿을 수 없는 대상에 닿을 수 있는 방법을 탐구한 작업이다. 디스플레이를 보는 것과 같이 물리적으로 닿을 수 없는 곳에 있는 풍경의 모습은 그 자체로 영상을
+                보는 경험과 같이 느껴졌다. 거기서 오는 이질감은 현실에 대한 불신으로 이어지고 그동안 본 세상의 모습을 탑으로 쌓아 시각적으로 재구성하였다.
+              </p>
+              <p>
+                카메라는 아무리 줌 인을 해도 대상에게 닿을 수 없으며, 육체를 이용해야 도달할 수 있는 것이 현실의 실체라고 믿는다. 밤에 빛나는 바다 너머의 빌딩은 닿을 수 없다. 그렇다면 그것을
+                존재한다고 믿는 것은 추측이 아닐까?
+              </p>
+              <p>
+                영상 속 시선은 밤에 머무르며 가로등과 도시의 불빛에 반사되는 일렁임을 따라다닌다. 카메라는 밤에 취약하다. 사람도 빛이 없으면 앞을 볼 수 없다. 카메라는 더욱 극단적으로 시선을
+                제한한다. 카메라를 통해 본 세상의 빛나는 곳들은 다른 모습을 보여준다.
+              </p>
+              <p>
+                영상은 다시 빛을 통해 상영되고 관객들은 다시 한번 도달할 수 없는 거리감을 마주하게 된다. 영상에 등장하는 2채널의 화면에는 각각 정사각형의 도형으로 이루어진 영상과 단일 영상 클립이
+                반복 재생된다. 영상에서도 카메라가 만들어내는 거리감이 생기고, 오른쪽 화면에 구성된 입체물에서 또 다른 물리적 거리감이 생겨난다. 그것을 보는 관객과 화면의 물리적인 거리감은 결코
+                도달할 수 없는 현실 너머의 새로운 풍경을 마주하게 된다.
+              </p>
+            </div>
+          </section>
+          <!-- 12 · 보기 경험 3 캡션: 제목, 연도/매체, 설명을 이 구역에서 수정 -->
+          <section class="caption" data-project="viewing-experience-3" aria-label="보기 경험 3 캡션">
+            <h2>
+              보기 경험 3
+            </h2>
+            <p class="caption-meta">
+              2026 · 비디오
+            </p>
+          </section>
+          <!-- 13 · 디지털 산책자 캡션: 제목, 연도/매체, 설명을 이 구역에서 수정 -->
+          <section class="caption" data-project="digital-walker" aria-label="디지털 산책자 캡션">
+            <h2>
+              디지털 산책자
+            </h2>
+            <p class="caption-meta">
+              2024 · 디지털 프린트
+            </p>
+          </section>
+          <!-- 14 · 아우라 프로젝트 캡션: 제목, 연도/매체, 설명을 이 구역에서 수정 -->
+          <section class="caption" data-project="aura-project" aria-label="아우라 프로젝트 캡션">
+            <h2>
+              아우라 프로젝트
+            </h2>
+            <p class="caption-meta">
+              2024 · 디지털 프린트
+            </p>
+            <div class="project-description">
+              <p>
+                예술이란 무엇이며 발터 벤야민의 아우라를 인공적으로 발현시키는 시도를 해보았다. 예술을 의도적으로 제작할 수 있는가, 예술은 어떻게 나타나는지 생각하며 인터넷에서 복제된 ‘최후의 만찬’을
+                같은 사이즈로 인쇄하여 설치했다. 중앙에 있었던 예수는 물리적으로 오려져 모습이 보이지 않는다.
+              </p>
+              <p>
+                아우라의 본래 의미는 예수에서 비치는 후광 그 자체이다. 사진 속에는 예수도 아우라도 나타날 수 없지만, 복제된 저렴한 이미지의 작품은 다른 맥락의 아우라가 만들어질 수 있는 조건을
+                성립하고 있다.
+              </p>
+            </div>
+          </section>
+          <!-- 15 · 나는 시시하게 보고 지나쳤다 캡션: 제목, 연도/매체, 설명을 이 구역에서 수정 -->
+          <section class="caption" data-project="trivial-glance" aria-label="나는 시시하게 보고 지나쳤다 캡션">
+            <h2>
+              나는 시시하게 보고 지나쳤다
+            </h2>
+            <p class="caption-meta">
+              2026 · 디지털 프린트 · PVC 시트 · 책 · 310 × 220 cm
+            </p>
+            <div class="project-description">
+              <p>
+                &lt;
+                나는 시시하게 보고 지나쳤다
+                &gt;
+                는 세상을 바라보는 태도에 관한 작업이다. 세상을 관찰하는 눈이 아닌 그저 앞을 걸어가기 위해 존재했던 나의 눈에 대한 태도이다. 일상을 다시 돌아보고 내가 지나친 것, 지나치는 순간에
+                카메라를 들고 대상을 담기 시작했다. 그것은 습관 교정과 같았다. 보는 태도를 바꾸기 위해 시작한 기록은 모두
+                &#39;
+                돌
+                &#39;
+                이라고 스스로 판단한 것을 담았다. 어디에나 존재하지만 인식할 수 없는
+                &#39;
+                지나치는 것
+                &#39;
+                들은 그곳에는 있지만 드러나지 않는 것이다. 화단에 놓인 돌, 공터의 벽, 아스팔트 도로, 하늘에 뜬 달처럼 지나치지 않고 다시 바라보며 평소에 볼 수 없었던 것들이 보였다. 항상 같은
+                자리에 있지만 주목하지 않았던 것. 시시하게 보고 지나친 것은 대상이 특별하지 않기 때문이 아니라 관심을 주지 않은 상태로 남아있기 때문이었다고 느낀다. 어쩌면 이미 특별한 것이었을 수도
+                있다.
+              </p>
+            </div>
+          </section>
+        </aside>
+        <div class="pane-splitter pane-splitter-fixed" aria-hidden="true">
+        </div>
+        <!-- 오른쪽 열: 작가노트 슬라이드와 작품별 이미지/영상 -->
+        <section class="project-main" aria-label="작업 이미지">
+          <div class="home-slideshow" aria-label="작가 노트 이미지 슬라이드">
+            <img class="home-slide" src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto,a_90/work-01-map-of-senses.png" alt="감각의 지도" loading="lazy">
+            <img class="home-slide" src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/work-02-beoljit.png" alt="뻘짓" loading="lazy">
+            <img class="home-slide" src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/work-03-digital-lantern.jpeg" alt="디지털 환등기" loading="lazy">
+            <img class="home-slide" src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/work-04-viewing-experience-1.jpg" alt="보기 경험 1" loading="lazy">
+            <img class="home-slide" src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/work-05-viewing-experience-2.jpg" alt="보기 경험 2" loading="lazy">
+            <img class="home-slide" src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/work-06-maze.jpg" alt="미궁" loading="lazy">
+            <img class="home-slide" src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/v1792819896/%EB%8F%84%EC%8B%9C%EA%B0%80_%EB%B3%B4%EC%9D%B4%EB%8A%94_%EB%B0%94%EB%8B%A4.jpg" alt="도시가 보이는 바다" loading="lazy">
+            <img class="home-slide" src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/work-08-human-nature.png" alt="인간 . 자연" loading="lazy">
+            <img class="home-slide" src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/work-09-bugbuster-heat-runner.png" alt="Bugbuster Heatrunner" loading="lazy">
+            <img class="home-slide" src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/work-10-human-kingdom.png" alt="인간들의 왕국" loading="lazy">
+            <img class="home-slide" src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/work-11-sunlight-at-night.jpeg" alt="태양은 밤에도 빛난다" loading="lazy">
+            <img class="home-slide" src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/work-12-viewing-experience-3.jpg" alt="보기 경험 3" loading="lazy">
+            <img class="home-slide" src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/work-13-digital-walker.jpg" alt="디지털 산책자" loading="lazy">
+            <img class="home-slide" src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/work-14-aura-project.jpg" alt="아우라 프로젝트" loading="lazy">
+            <img class="home-slide" src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/v1792770021/work-15-trivial-glance.jpg" alt="나는 시시하게 보고 지나쳤다" loading="lazy">
+          </div>
+          <!-- 감각의 지도 이미지와 영상 -->
+          <section class="project-media" data-project="map-of-senses" aria-label="감각의 지도 이미지">
+            <div class="detail-video-player">
+              <iframe class="video-frame" src="https://www.youtube.com/embed/H_7cm6VNVoo" title="감각의 지도 영상" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen="">
+              </iframe>
+            </div>
+            <div class="detail-gallery" aria-label="작업 이미지 그리드">
+              <a class="detail-grid-item" href="#lightbox-map-of-senses-1" aria-label="대표 이미지 크게 보기">
+                <span class="detail-grid-image">
+                  <img src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto,a_90/work-01-map-of-senses.png" alt="대표 이미지" loading="lazy">
+                </span>
+              </a>
+              <a class="detail-grid-item" href="#lightbox-map-of-senses-2" aria-label="감각의 지도 크게 보기">
+                <span class="detail-grid-image">
+                  <img src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/map-of-senses-03.jpg" alt="감각의 지도" loading="lazy">
+                </span>
+              </a>
+              <a class="detail-grid-item" href="#lightbox-map-of-senses-3" aria-label="감각의 지도 크게 보기">
+                <span class="detail-grid-image">
+                  <img src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/map-of-senses-04.jpg" alt="감각의 지도" loading="lazy">
+                </span>
+              </a>
+              <a class="detail-grid-item" href="#lightbox-map-of-senses-4" aria-label="감각의 지도 크게 보기">
+                <span class="detail-grid-image">
+                  <img src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/map-of-senses-05.jpg" alt="감각의 지도" loading="lazy">
+                </span>
+              </a>
+              <a class="detail-grid-item" href="#lightbox-map-of-senses-5" aria-label="감각의 지도 크게 보기">
+                <span class="detail-grid-image">
+                  <img src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/map-of-senses-06.jpg" alt="감각의 지도" loading="lazy">
+                </span>
+              </a>
+              <a class="detail-grid-item" href="#lightbox-map-of-senses-6" aria-label="감각의 지도 크게 보기">
+                <span class="detail-grid-image">
+                  <img src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/map-of-senses-07.jpg" alt="감각의 지도" loading="lazy">
+                </span>
+              </a>
+              <a class="detail-grid-item" href="#lightbox-map-of-senses-7" aria-label="감각의 지도 크게 보기">
+                <span class="detail-grid-image">
+                  <img src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/map-of-senses-08.jpg" alt="감각의 지도" loading="lazy">
+                </span>
+              </a>
+              <a class="detail-grid-item" href="#lightbox-map-of-senses-8" aria-label="감각의 지도 크게 보기">
+                <span class="detail-grid-image">
+                  <img src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/map-of-senses-09.jpg" alt="감각의 지도" loading="lazy">
+                </span>
+              </a>
+              <a class="detail-grid-item" href="#lightbox-map-of-senses-9" aria-label="감각의 지도 크게 보기">
+                <span class="detail-grid-image">
+                  <img src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/map-of-senses-10.jpg" alt="감각의 지도" loading="lazy">
+                </span>
+              </a>
+              <a class="detail-grid-item" href="#lightbox-map-of-senses-10" aria-label="감각의 지도 크게 보기">
+                <span class="detail-grid-image">
+                  <img src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/map-of-senses-11.jpg" alt="감각의 지도" loading="lazy">
+                </span>
+              </a>
+              <a class="detail-grid-item" href="#lightbox-map-of-senses-11" aria-label="감각의 지도 크게 보기">
+                <span class="detail-grid-image">
+                  <img src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/map-of-senses-12.jpg" alt="감각의 지도" loading="lazy">
+                </span>
+              </a>
+              <a class="detail-grid-item" href="#lightbox-map-of-senses-12" aria-label="감각의 지도 크게 보기">
+                <span class="detail-grid-image">
+                  <img src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/map-of-senses-13.jpg" alt="감각의 지도" loading="lazy">
+                </span>
+              </a>
+              <a class="detail-grid-item" href="#lightbox-map-of-senses-13" aria-label="감각의 지도 크게 보기">
+                <span class="detail-grid-image">
+                  <img src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/map-of-senses-14.jpg" alt="감각의 지도" loading="lazy">
+                </span>
+              </a>
+              <a class="detail-grid-item" href="#lightbox-map-of-senses-14" aria-label="감각의 지도 크게 보기">
+                <span class="detail-grid-image">
+                  <img src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/map-of-senses-15.jpg" alt="감각의 지도" loading="lazy">
+                </span>
+              </a>
+              <a class="detail-grid-item" href="#lightbox-map-of-senses-15" aria-label="감각의 지도 크게 보기">
+                <span class="detail-grid-image">
+                  <img src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/map-of-senses-16.jpg" alt="감각의 지도" loading="lazy">
+                </span>
+              </a>
+              <a class="detail-grid-item" href="#lightbox-map-of-senses-16" aria-label="감각의 지도 크게 보기">
+                <span class="detail-grid-image">
+                  <img src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/map-of-senses-17.jpg" alt="감각의 지도" loading="lazy">
+                </span>
+              </a>
+              <a class="detail-grid-item" href="#lightbox-map-of-senses-17" aria-label="감각의 지도 크게 보기">
+                <span class="detail-grid-image">
+                  <img src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/map-of-senses-19.jpg" alt="감각의 지도" loading="lazy">
+                </span>
+              </a>
+            </div>
+          </section>
+          <section class="image-lightbox" id="lightbox-map-of-senses-1" role="dialog" aria-label="감각의 지도 이미지 보기">
+            <a class="lightbox-close" href="#" aria-label="닫기">
+              ×
+            </a>
+            <a class="lightbox-nav lightbox-prev" href="#lightbox-map-of-senses-17" aria-label="이전 이미지">
+              ←
+            </a>
+            <figure class="lightbox-figure">
+              <img class="lightbox-image" src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto,a_90/work-01-map-of-senses.png" alt="대표 이미지" loading="lazy">
+              <figcaption class="lightbox-caption">
+                대표 이미지 · 1 / 17
+              </figcaption>
+            </figure>
+            <a class="lightbox-nav lightbox-next" href="#lightbox-map-of-senses-2" aria-label="다음 이미지">
+              →
+            </a>
+          </section>
+          <section class="image-lightbox" id="lightbox-map-of-senses-2" role="dialog" aria-label="감각의 지도 이미지 보기">
+            <a class="lightbox-close" href="#" aria-label="닫기">
+              ×
+            </a>
+            <a class="lightbox-nav lightbox-prev" href="#lightbox-map-of-senses-1" aria-label="이전 이미지">
+              ←
+            </a>
+            <figure class="lightbox-figure">
+              <img class="lightbox-image" src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/map-of-senses-03.jpg" alt="감각의 지도" loading="lazy">
+              <figcaption class="lightbox-caption">
+                감각의 지도 · 2 / 17
+              </figcaption>
+            </figure>
+            <a class="lightbox-nav lightbox-next" href="#lightbox-map-of-senses-3" aria-label="다음 이미지">
+              →
+            </a>
+          </section>
+          <section class="image-lightbox" id="lightbox-map-of-senses-3" role="dialog" aria-label="감각의 지도 이미지 보기">
+            <a class="lightbox-close" href="#" aria-label="닫기">
+              ×
+            </a>
+            <a class="lightbox-nav lightbox-prev" href="#lightbox-map-of-senses-2" aria-label="이전 이미지">
+              ←
+            </a>
+            <figure class="lightbox-figure">
+              <img class="lightbox-image" src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/map-of-senses-04.jpg" alt="감각의 지도" loading="lazy">
+              <figcaption class="lightbox-caption">
+                감각의 지도 · 3 / 17
+              </figcaption>
+            </figure>
+            <a class="lightbox-nav lightbox-next" href="#lightbox-map-of-senses-4" aria-label="다음 이미지">
+              →
+            </a>
+          </section>
+          <section class="image-lightbox" id="lightbox-map-of-senses-4" role="dialog" aria-label="감각의 지도 이미지 보기">
+            <a class="lightbox-close" href="#" aria-label="닫기">
+              ×
+            </a>
+            <a class="lightbox-nav lightbox-prev" href="#lightbox-map-of-senses-3" aria-label="이전 이미지">
+              ←
+            </a>
+            <figure class="lightbox-figure">
+              <img class="lightbox-image" src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/map-of-senses-05.jpg" alt="감각의 지도" loading="lazy">
+              <figcaption class="lightbox-caption">
+                감각의 지도 · 4 / 17
+              </figcaption>
+            </figure>
+            <a class="lightbox-nav lightbox-next" href="#lightbox-map-of-senses-5" aria-label="다음 이미지">
+              →
+            </a>
+          </section>
+          <section class="image-lightbox" id="lightbox-map-of-senses-5" role="dialog" aria-label="감각의 지도 이미지 보기">
+            <a class="lightbox-close" href="#" aria-label="닫기">
+              ×
+            </a>
+            <a class="lightbox-nav lightbox-prev" href="#lightbox-map-of-senses-4" aria-label="이전 이미지">
+              ←
+            </a>
+            <figure class="lightbox-figure">
+              <img class="lightbox-image" src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/map-of-senses-06.jpg" alt="감각의 지도" loading="lazy">
+              <figcaption class="lightbox-caption">
+                감각의 지도 · 5 / 17
+              </figcaption>
+            </figure>
+            <a class="lightbox-nav lightbox-next" href="#lightbox-map-of-senses-6" aria-label="다음 이미지">
+              →
+            </a>
+          </section>
+          <section class="image-lightbox" id="lightbox-map-of-senses-6" role="dialog" aria-label="감각의 지도 이미지 보기">
+            <a class="lightbox-close" href="#" aria-label="닫기">
+              ×
+            </a>
+            <a class="lightbox-nav lightbox-prev" href="#lightbox-map-of-senses-5" aria-label="이전 이미지">
+              ←
+            </a>
+            <figure class="lightbox-figure">
+              <img class="lightbox-image" src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/map-of-senses-07.jpg" alt="감각의 지도" loading="lazy">
+              <figcaption class="lightbox-caption">
+                감각의 지도 · 6 / 17
+              </figcaption>
+            </figure>
+            <a class="lightbox-nav lightbox-next" href="#lightbox-map-of-senses-7" aria-label="다음 이미지">
+              →
+            </a>
+          </section>
+          <section class="image-lightbox" id="lightbox-map-of-senses-7" role="dialog" aria-label="감각의 지도 이미지 보기">
+            <a class="lightbox-close" href="#" aria-label="닫기">
+              ×
+            </a>
+            <a class="lightbox-nav lightbox-prev" href="#lightbox-map-of-senses-6" aria-label="이전 이미지">
+              ←
+            </a>
+            <figure class="lightbox-figure">
+              <img class="lightbox-image" src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/map-of-senses-08.jpg" alt="감각의 지도" loading="lazy">
+              <figcaption class="lightbox-caption">
+                감각의 지도 · 7 / 17
+              </figcaption>
+            </figure>
+            <a class="lightbox-nav lightbox-next" href="#lightbox-map-of-senses-8" aria-label="다음 이미지">
+              →
+            </a>
+          </section>
+          <section class="image-lightbox" id="lightbox-map-of-senses-8" role="dialog" aria-label="감각의 지도 이미지 보기">
+            <a class="lightbox-close" href="#" aria-label="닫기">
+              ×
+            </a>
+            <a class="lightbox-nav lightbox-prev" href="#lightbox-map-of-senses-7" aria-label="이전 이미지">
+              ←
+            </a>
+            <figure class="lightbox-figure">
+              <img class="lightbox-image" src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/map-of-senses-09.jpg" alt="감각의 지도" loading="lazy">
+              <figcaption class="lightbox-caption">
+                감각의 지도 · 8 / 17
+              </figcaption>
+            </figure>
+            <a class="lightbox-nav lightbox-next" href="#lightbox-map-of-senses-9" aria-label="다음 이미지">
+              →
+            </a>
+          </section>
+          <section class="image-lightbox" id="lightbox-map-of-senses-9" role="dialog" aria-label="감각의 지도 이미지 보기">
+            <a class="lightbox-close" href="#" aria-label="닫기">
+              ×
+            </a>
+            <a class="lightbox-nav lightbox-prev" href="#lightbox-map-of-senses-8" aria-label="이전 이미지">
+              ←
+            </a>
+            <figure class="lightbox-figure">
+              <img class="lightbox-image" src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/map-of-senses-10.jpg" alt="감각의 지도" loading="lazy">
+              <figcaption class="lightbox-caption">
+                감각의 지도 · 9 / 17
+              </figcaption>
+            </figure>
+            <a class="lightbox-nav lightbox-next" href="#lightbox-map-of-senses-10" aria-label="다음 이미지">
+              →
+            </a>
+          </section>
+          <section class="image-lightbox" id="lightbox-map-of-senses-10" role="dialog" aria-label="감각의 지도 이미지 보기">
+            <a class="lightbox-close" href="#" aria-label="닫기">
+              ×
+            </a>
+            <a class="lightbox-nav lightbox-prev" href="#lightbox-map-of-senses-9" aria-label="이전 이미지">
+              ←
+            </a>
+            <figure class="lightbox-figure">
+              <img class="lightbox-image" src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/map-of-senses-11.jpg" alt="감각의 지도" loading="lazy">
+              <figcaption class="lightbox-caption">
+                감각의 지도 · 10 / 17
+              </figcaption>
+            </figure>
+            <a class="lightbox-nav lightbox-next" href="#lightbox-map-of-senses-11" aria-label="다음 이미지">
+              →
+            </a>
+          </section>
+          <section class="image-lightbox" id="lightbox-map-of-senses-11" role="dialog" aria-label="감각의 지도 이미지 보기">
+            <a class="lightbox-close" href="#" aria-label="닫기">
+              ×
+            </a>
+            <a class="lightbox-nav lightbox-prev" href="#lightbox-map-of-senses-10" aria-label="이전 이미지">
+              ←
+            </a>
+            <figure class="lightbox-figure">
+              <img class="lightbox-image" src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/map-of-senses-12.jpg" alt="감각의 지도" loading="lazy">
+              <figcaption class="lightbox-caption">
+                감각의 지도 · 11 / 17
+              </figcaption>
+            </figure>
+            <a class="lightbox-nav lightbox-next" href="#lightbox-map-of-senses-12" aria-label="다음 이미지">
+              →
+            </a>
+          </section>
+          <section class="image-lightbox" id="lightbox-map-of-senses-12" role="dialog" aria-label="감각의 지도 이미지 보기">
+            <a class="lightbox-close" href="#" aria-label="닫기">
+              ×
+            </a>
+            <a class="lightbox-nav lightbox-prev" href="#lightbox-map-of-senses-11" aria-label="이전 이미지">
+              ←
+            </a>
+            <figure class="lightbox-figure">
+              <img class="lightbox-image" src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/map-of-senses-13.jpg" alt="감각의 지도" loading="lazy">
+              <figcaption class="lightbox-caption">
+                감각의 지도 · 12 / 17
+              </figcaption>
+            </figure>
+            <a class="lightbox-nav lightbox-next" href="#lightbox-map-of-senses-13" aria-label="다음 이미지">
+              →
+            </a>
+          </section>
+          <section class="image-lightbox" id="lightbox-map-of-senses-13" role="dialog" aria-label="감각의 지도 이미지 보기">
+            <a class="lightbox-close" href="#" aria-label="닫기">
+              ×
+            </a>
+            <a class="lightbox-nav lightbox-prev" href="#lightbox-map-of-senses-12" aria-label="이전 이미지">
+              ←
+            </a>
+            <figure class="lightbox-figure">
+              <img class="lightbox-image" src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/map-of-senses-14.jpg" alt="감각의 지도" loading="lazy">
+              <figcaption class="lightbox-caption">
+                감각의 지도 · 13 / 17
+              </figcaption>
+            </figure>
+            <a class="lightbox-nav lightbox-next" href="#lightbox-map-of-senses-14" aria-label="다음 이미지">
+              →
+            </a>
+          </section>
+          <section class="image-lightbox" id="lightbox-map-of-senses-14" role="dialog" aria-label="감각의 지도 이미지 보기">
+            <a class="lightbox-close" href="#" aria-label="닫기">
+              ×
+            </a>
+            <a class="lightbox-nav lightbox-prev" href="#lightbox-map-of-senses-13" aria-label="이전 이미지">
+              ←
+            </a>
+            <figure class="lightbox-figure">
+              <img class="lightbox-image" src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/map-of-senses-15.jpg" alt="감각의 지도" loading="lazy">
+              <figcaption class="lightbox-caption">
+                감각의 지도 · 14 / 17
+              </figcaption>
+            </figure>
+            <a class="lightbox-nav lightbox-next" href="#lightbox-map-of-senses-15" aria-label="다음 이미지">
+              →
+            </a>
+          </section>
+          <section class="image-lightbox" id="lightbox-map-of-senses-15" role="dialog" aria-label="감각의 지도 이미지 보기">
+            <a class="lightbox-close" href="#" aria-label="닫기">
+              ×
+            </a>
+            <a class="lightbox-nav lightbox-prev" href="#lightbox-map-of-senses-14" aria-label="이전 이미지">
+              ←
+            </a>
+            <figure class="lightbox-figure">
+              <img class="lightbox-image" src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/map-of-senses-16.jpg" alt="감각의 지도" loading="lazy">
+              <figcaption class="lightbox-caption">
+                감각의 지도 · 15 / 17
+              </figcaption>
+            </figure>
+            <a class="lightbox-nav lightbox-next" href="#lightbox-map-of-senses-16" aria-label="다음 이미지">
+              →
+            </a>
+          </section>
+          <section class="image-lightbox" id="lightbox-map-of-senses-16" role="dialog" aria-label="감각의 지도 이미지 보기">
+            <a class="lightbox-close" href="#" aria-label="닫기">
+              ×
+            </a>
+            <a class="lightbox-nav lightbox-prev" href="#lightbox-map-of-senses-15" aria-label="이전 이미지">
+              ←
+            </a>
+            <figure class="lightbox-figure">
+              <img class="lightbox-image" src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/map-of-senses-17.jpg" alt="감각의 지도" loading="lazy">
+              <figcaption class="lightbox-caption">
+                감각의 지도 · 16 / 17
+              </figcaption>
+            </figure>
+            <a class="lightbox-nav lightbox-next" href="#lightbox-map-of-senses-17" aria-label="다음 이미지">
+              →
+            </a>
+          </section>
+          <section class="image-lightbox" id="lightbox-map-of-senses-17" role="dialog" aria-label="감각의 지도 이미지 보기">
+            <a class="lightbox-close" href="#" aria-label="닫기">
+              ×
+            </a>
+            <a class="lightbox-nav lightbox-prev" href="#lightbox-map-of-senses-16" aria-label="이전 이미지">
+              ←
+            </a>
+            <figure class="lightbox-figure">
+              <img class="lightbox-image" src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/map-of-senses-19.jpg" alt="감각의 지도" loading="lazy">
+              <figcaption class="lightbox-caption">
+                감각의 지도 · 17 / 17
+              </figcaption>
+            </figure>
+            <a class="lightbox-nav lightbox-next" href="#lightbox-map-of-senses-1" aria-label="다음 이미지">
+              →
+            </a>
+          </section>
+          <!-- 뻘짓 이미지와 영상 -->
+          <section class="project-media" data-project="beoljit" aria-label="뻘짓 이미지">
+            <div class="detail-video-player">
+              <iframe class="video-frame" src="https://www.youtube.com/embed/yQZRlRd8ygs?si=ot4XjpflNkJZVHA3" title="뻘짓 영상" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen="">
+              </iframe>
+            </div>
+          </section>
+          <!-- 디지털 환등기 이미지와 영상 -->
+          <section class="project-media" data-project="digital-lantern" aria-label="디지털 환등기 이미지">
+            <div class="detail-video-player">
+              <iframe class="video-frame" src="https://www.youtube.com/embed/3Uw7X1X95CY?si=3VmC0tCKT3qjya4S" title="디지털 환등기 영상" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen="">
+              </iframe>
+            </div>
+          </section>
+          <!-- 보기 경험 1 이미지와 영상 -->
+          <section class="project-media" data-project="viewing-experience-1" aria-label="보기 경험 1 이미지">
+            <div class="detail-video-player">
+              <iframe class="video-frame" src="https://www.youtube.com/embed/aCdNrAX20oY?si=jcaqKo85VmW_yal6" title="보기 경험 1 영상" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen="">
+              </iframe>
+            </div>
+          </section>
+          <!-- 보기 경험 2 이미지와 영상 -->
+          <section class="project-media" data-project="viewing-experience-2" aria-label="보기 경험 2 이미지">
+            <div class="detail-video-player">
+              <iframe class="video-frame" src="https://www.youtube.com/embed/c1GlLmTpD9w" title="보기 경험 2 영상" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen="">
+              </iframe>
+            </div>
+          </section>
+          <!-- 미궁 이미지와 영상 -->
+          <section class="project-media" data-project="maze" aria-label="미궁 이미지">
+            <div class="detail-video-player">
+              <iframe class="video-frame" src="https://www.youtube.com/embed/m5loLvI6hkc" title="미궁 영상" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen="">
+              </iframe>
+            </div>
+          </section>
+          <!-- 도시가 보이는 바다 이미지와 영상 -->
+          <section class="project-media" data-project="city-sea" aria-label="도시가 보이는 바다 이미지">
+            <div class="detail-video-player">
+              <iframe class="video-frame" src="https://www.youtube.com/embed/iv_H_flT098?si=ZJTKT967HuDq6U8i" title="도시가 보이는 바다 영상" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen="">
+              </iframe>
+            </div>
+          </section>
+          <!-- 인간 . 자연 이미지와 영상 -->
+          <section class="project-media" data-project="human-nature" aria-label="인간 . 자연 이미지">
+            <div class="detail-video-player">
+              <iframe class="video-frame" src="https://www.youtube.com/embed/Q4LqzVRQsgM?si=I0dXrGjxwXh64ClP" title="인간 . 자연 영상" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen="">
+              </iframe>
+            </div>
+          </section>
+          <!-- Bugbuster Heatrunner 이미지와 영상 -->
+          <section class="project-media" data-project="bugbuster-heatrunner" aria-label="Bugbuster Heatrunner 이미지">
+            <div class="detail-video-player">
+              <iframe class="video-frame" src="https://www.youtube.com/embed/zFZcTLlamio?si=3Mt7HADCxY8Rzxnw" title="Bugbuster Heatrunner 영상" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen="">
+              </iframe>
+            </div>
+          </section>
+          <!-- 인간들의 왕국 이미지와 영상 -->
+          <section class="project-media" data-project="kingdom-of-humans" aria-label="인간들의 왕국 이미지">
+            <div class="detail-video-player">
+              <iframe class="video-frame" src="https://www.youtube.com/embed/zsCXblgRrts" title="인간들의 왕국 영상" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen="">
+              </iframe>
+            </div>
+          </section>
+          <!-- 태양은 밤에도 빛난다 이미지와 영상 -->
+          <section class="project-media" data-project="sunlight-at-night" aria-label="태양은 밤에도 빛난다 이미지">
+            <div class="detail-video-player">
+              <iframe class="video-frame" src="https://www.youtube.com/embed/piykNK4K8SE" title="태양은 밤에도 빛난다 영상" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen="">
+              </iframe>
+            </div>
+          </section>
+          <!-- 보기 경험 3 이미지와 영상 -->
+          <section class="project-media" data-project="viewing-experience-3" aria-label="보기 경험 3 이미지">
+            <div class="detail-feature">
+              <div class="still-stage">
+                <img class="project-image" src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/work-12-viewing-experience-3.jpg" alt="보기 경험 3" loading="lazy">
+              </div>
+            </div>
+          </section>
+          <!-- 디지털 산책자 이미지와 영상 -->
+          <section class="project-media" data-project="digital-walker" aria-label="디지털 산책자 이미지">
+            <div class="detail-feature">
+              <div class="still-stage">
+                <img class="project-image" src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/work-13-digital-walker.jpg" alt="디지털 산책자" loading="lazy">
+              </div>
+            </div>
+          </section>
+          <!-- 아우라 프로젝트 이미지와 영상 -->
+          <section class="project-media" data-project="aura-project" aria-label="아우라 프로젝트 이미지">
+            <div class="detail-feature">
+              <div class="still-stage">
+                <img class="project-image" src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/work-14-aura-project.jpg" alt="아우라 프로젝트" loading="lazy">
+              </div>
+            </div>
+          </section>
+          <!-- 나는 시시하게 보고 지나쳤다 이미지와 영상 -->
+          <section class="project-media" data-project="trivial-glance" aria-label="나는 시시하게 보고 지나쳤다 이미지">
+            <div class="detail-feature">
+              <div class="still-stage">
+                <img class="project-image" src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/v1792770021/work-15-trivial-glance.jpg" alt="나는 시시하게 보고 지나쳤다" loading="lazy">
+              </div>
+            </div>
+            <div class="detail-gallery" aria-label="작업 이미지 그리드">
+              <a class="detail-grid-item" href="#lightbox-trivial-glance-1" aria-label="대표 이미지 크게 보기">
+                <span class="detail-grid-image">
+                  <img src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/v1792770021/work-15-trivial-glance.jpg" alt="대표 이미지" loading="lazy">
+                </span>
+              </a>
+              <a class="detail-grid-item" href="#lightbox-trivial-glance-2" aria-label="나는 시시하게 보고 지나쳤다 크게 보기">
+                <span class="detail-grid-image">
+                  <img src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/work-15-view-01.jpg" alt="나는 시시하게 보고 지나쳤다" loading="lazy">
+                </span>
+              </a>
+              <a class="detail-grid-item" href="#lightbox-trivial-glance-3" aria-label="나는 시시하게 보고 지나쳤다 크게 보기">
+                <span class="detail-grid-image">
+                  <img src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/work-15-view-02.jpg" alt="나는 시시하게 보고 지나쳤다" loading="lazy">
+                </span>
+              </a>
+              <a class="detail-grid-item" href="#lightbox-trivial-glance-4" aria-label="나는 시시하게 보고 지나쳤다 크게 보기">
+                <span class="detail-grid-image">
+                  <img src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/work-15-view-09.png" alt="나는 시시하게 보고 지나쳤다" loading="lazy">
+                </span>
+              </a>
+              <a class="detail-grid-item" href="#lightbox-trivial-glance-5" aria-label="나는 시시하게 보고 지나쳤다 크게 보기">
+                <span class="detail-grid-image">
+                  <img src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/work-15-view-10.png" alt="나는 시시하게 보고 지나쳤다" loading="lazy">
+                </span>
+              </a>
+              <a class="detail-grid-item" href="#lightbox-trivial-glance-6" aria-label="나는 시시하게 보고 지나쳤다 크게 보기">
+                <span class="detail-grid-image">
+                  <img src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/work-15-view-11.png" alt="나는 시시하게 보고 지나쳤다" loading="lazy">
+                </span>
+              </a>
+              <a class="detail-grid-item" href="#lightbox-trivial-glance-7" aria-label="나는 시시하게 보고 지나쳤다 크게 보기">
+                <span class="detail-grid-image">
+                  <img src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/work-15-view-12.png" alt="나는 시시하게 보고 지나쳤다" loading="lazy">
+                </span>
+              </a>
+              <a class="detail-grid-item" href="#lightbox-trivial-glance-8" aria-label="나는 시시하게 보고 지나쳤다 크게 보기">
+                <span class="detail-grid-image">
+                  <img src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/work-15-view-13.png" alt="나는 시시하게 보고 지나쳤다" loading="lazy">
+                </span>
+              </a>
+              <a class="detail-grid-item" href="#lightbox-trivial-glance-9" aria-label="나는 시시하게 보고 지나쳤다 크게 보기">
+                <span class="detail-grid-image">
+                  <img src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto,a_90/work-15-view-03.png" alt="나는 시시하게 보고 지나쳤다" loading="lazy">
+                </span>
+              </a>
+              <a class="detail-grid-item" href="#lightbox-trivial-glance-10" aria-label="나는 시시하게 보고 지나쳤다 크게 보기">
+                <span class="detail-grid-image">
+                  <img src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto,a_90/work-15-view-04.png" alt="나는 시시하게 보고 지나쳤다" loading="lazy">
+                </span>
+              </a>
+              <a class="detail-grid-item" href="#lightbox-trivial-glance-11" aria-label="나는 시시하게 보고 지나쳤다 크게 보기">
+                <span class="detail-grid-image">
+                  <img src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto,a_90/work-15-view-05.png" alt="나는 시시하게 보고 지나쳤다" loading="lazy">
+                </span>
+              </a>
+              <a class="detail-grid-item" href="#lightbox-trivial-glance-12" aria-label="나는 시시하게 보고 지나쳤다 크게 보기">
+                <span class="detail-grid-image">
+                  <img src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto,a_90/work-15-view-06.png" alt="나는 시시하게 보고 지나쳤다" loading="lazy">
+                </span>
+              </a>
+              <a class="detail-grid-item" href="#lightbox-trivial-glance-13" aria-label="나는 시시하게 보고 지나쳤다 크게 보기">
+                <span class="detail-grid-image">
+                  <img src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto,a_90/work-15-view-07.png" alt="나는 시시하게 보고 지나쳤다" loading="lazy">
+                </span>
+              </a>
+              <a class="detail-grid-item" href="#lightbox-trivial-glance-14" aria-label="나는 시시하게 보고 지나쳤다 크게 보기">
+                <span class="detail-grid-image">
+                  <img src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto,a_90/work-15-view-08.png" alt="나는 시시하게 보고 지나쳤다" loading="lazy">
+                </span>
+              </a>
+              <a class="detail-grid-item" href="#lightbox-trivial-glance-15" aria-label="나는 시시하게 보고 지나쳤다 크게 보기">
+                <span class="detail-grid-image">
+                  <img src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto,a_90/work-15-view-14.png" alt="나는 시시하게 보고 지나쳤다" loading="lazy">
+                </span>
+              </a>
+            </div>
+          </section>
+          <section class="image-lightbox" id="lightbox-trivial-glance-1" role="dialog" aria-label="나는 시시하게 보고 지나쳤다 이미지 보기">
+            <a class="lightbox-close" href="#" aria-label="닫기">
+              ×
+            </a>
+            <a class="lightbox-nav lightbox-prev" href="#lightbox-trivial-glance-15" aria-label="이전 이미지">
+              ←
+            </a>
+            <figure class="lightbox-figure">
+              <img class="lightbox-image" src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/v1792770021/work-15-trivial-glance.jpg" alt="대표 이미지" loading="lazy">
+              <figcaption class="lightbox-caption">
+                대표 이미지 · 1 / 15
+              </figcaption>
+            </figure>
+            <a class="lightbox-nav lightbox-next" href="#lightbox-trivial-glance-2" aria-label="다음 이미지">
+              →
+            </a>
+          </section>
+          <section class="image-lightbox" id="lightbox-trivial-glance-2" role="dialog" aria-label="나는 시시하게 보고 지나쳤다 이미지 보기">
+            <a class="lightbox-close" href="#" aria-label="닫기">
+              ×
+            </a>
+            <a class="lightbox-nav lightbox-prev" href="#lightbox-trivial-glance-1" aria-label="이전 이미지">
+              ←
+            </a>
+            <figure class="lightbox-figure">
+              <img class="lightbox-image" src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/work-15-view-01.jpg" alt="나는 시시하게 보고 지나쳤다" loading="lazy">
+              <figcaption class="lightbox-caption">
+                나는 시시하게 보고 지나쳤다 · 2 / 15
+              </figcaption>
+            </figure>
+            <a class="lightbox-nav lightbox-next" href="#lightbox-trivial-glance-3" aria-label="다음 이미지">
+              →
+            </a>
+          </section>
+          <section class="image-lightbox" id="lightbox-trivial-glance-3" role="dialog" aria-label="나는 시시하게 보고 지나쳤다 이미지 보기">
+            <a class="lightbox-close" href="#" aria-label="닫기">
+              ×
+            </a>
+            <a class="lightbox-nav lightbox-prev" href="#lightbox-trivial-glance-2" aria-label="이전 이미지">
+              ←
+            </a>
+            <figure class="lightbox-figure">
+              <img class="lightbox-image" src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/work-15-view-02.jpg" alt="나는 시시하게 보고 지나쳤다" loading="lazy">
+              <figcaption class="lightbox-caption">
+                나는 시시하게 보고 지나쳤다 · 3 / 15
+              </figcaption>
+            </figure>
+            <a class="lightbox-nav lightbox-next" href="#lightbox-trivial-glance-4" aria-label="다음 이미지">
+              →
+            </a>
+          </section>
+          <section class="image-lightbox" id="lightbox-trivial-glance-4" role="dialog" aria-label="나는 시시하게 보고 지나쳤다 이미지 보기">
+            <a class="lightbox-close" href="#" aria-label="닫기">
+              ×
+            </a>
+            <a class="lightbox-nav lightbox-prev" href="#lightbox-trivial-glance-3" aria-label="이전 이미지">
+              ←
+            </a>
+            <figure class="lightbox-figure">
+              <img class="lightbox-image" src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/work-15-view-09.png" alt="나는 시시하게 보고 지나쳤다" loading="lazy">
+              <figcaption class="lightbox-caption">
+                나는 시시하게 보고 지나쳤다 · 4 / 15
+              </figcaption>
+            </figure>
+            <a class="lightbox-nav lightbox-next" href="#lightbox-trivial-glance-5" aria-label="다음 이미지">
+              →
+            </a>
+          </section>
+          <section class="image-lightbox" id="lightbox-trivial-glance-5" role="dialog" aria-label="나는 시시하게 보고 지나쳤다 이미지 보기">
+            <a class="lightbox-close" href="#" aria-label="닫기">
+              ×
+            </a>
+            <a class="lightbox-nav lightbox-prev" href="#lightbox-trivial-glance-4" aria-label="이전 이미지">
+              ←
+            </a>
+            <figure class="lightbox-figure">
+              <img class="lightbox-image" src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/work-15-view-10.png" alt="나는 시시하게 보고 지나쳤다" loading="lazy">
+              <figcaption class="lightbox-caption">
+                나는 시시하게 보고 지나쳤다 · 5 / 15
+              </figcaption>
+            </figure>
+            <a class="lightbox-nav lightbox-next" href="#lightbox-trivial-glance-6" aria-label="다음 이미지">
+              →
+            </a>
+          </section>
+          <section class="image-lightbox" id="lightbox-trivial-glance-6" role="dialog" aria-label="나는 시시하게 보고 지나쳤다 이미지 보기">
+            <a class="lightbox-close" href="#" aria-label="닫기">
+              ×
+            </a>
+            <a class="lightbox-nav lightbox-prev" href="#lightbox-trivial-glance-5" aria-label="이전 이미지">
+              ←
+            </a>
+            <figure class="lightbox-figure">
+              <img class="lightbox-image" src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/work-15-view-11.png" alt="나는 시시하게 보고 지나쳤다" loading="lazy">
+              <figcaption class="lightbox-caption">
+                나는 시시하게 보고 지나쳤다 · 6 / 15
+              </figcaption>
+            </figure>
+            <a class="lightbox-nav lightbox-next" href="#lightbox-trivial-glance-7" aria-label="다음 이미지">
+              →
+            </a>
+          </section>
+          <section class="image-lightbox" id="lightbox-trivial-glance-7" role="dialog" aria-label="나는 시시하게 보고 지나쳤다 이미지 보기">
+            <a class="lightbox-close" href="#" aria-label="닫기">
+              ×
+            </a>
+            <a class="lightbox-nav lightbox-prev" href="#lightbox-trivial-glance-6" aria-label="이전 이미지">
+              ←
+            </a>
+            <figure class="lightbox-figure">
+              <img class="lightbox-image" src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/work-15-view-12.png" alt="나는 시시하게 보고 지나쳤다" loading="lazy">
+              <figcaption class="lightbox-caption">
+                나는 시시하게 보고 지나쳤다 · 7 / 15
+              </figcaption>
+            </figure>
+            <a class="lightbox-nav lightbox-next" href="#lightbox-trivial-glance-8" aria-label="다음 이미지">
+              →
+            </a>
+          </section>
+          <section class="image-lightbox" id="lightbox-trivial-glance-8" role="dialog" aria-label="나는 시시하게 보고 지나쳤다 이미지 보기">
+            <a class="lightbox-close" href="#" aria-label="닫기">
+              ×
+            </a>
+            <a class="lightbox-nav lightbox-prev" href="#lightbox-trivial-glance-7" aria-label="이전 이미지">
+              ←
+            </a>
+            <figure class="lightbox-figure">
+              <img class="lightbox-image" src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto/work-15-view-13.png" alt="나는 시시하게 보고 지나쳤다" loading="lazy">
+              <figcaption class="lightbox-caption">
+                나는 시시하게 보고 지나쳤다 · 8 / 15
+              </figcaption>
+            </figure>
+            <a class="lightbox-nav lightbox-next" href="#lightbox-trivial-glance-9" aria-label="다음 이미지">
+              →
+            </a>
+          </section>
+          <section class="image-lightbox" id="lightbox-trivial-glance-9" role="dialog" aria-label="나는 시시하게 보고 지나쳤다 이미지 보기">
+            <a class="lightbox-close" href="#" aria-label="닫기">
+              ×
+            </a>
+            <a class="lightbox-nav lightbox-prev" href="#lightbox-trivial-glance-8" aria-label="이전 이미지">
+              ←
+            </a>
+            <figure class="lightbox-figure">
+              <img class="lightbox-image" src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto,a_90/work-15-view-03.png" alt="나는 시시하게 보고 지나쳤다" loading="lazy">
+              <figcaption class="lightbox-caption">
+                나는 시시하게 보고 지나쳤다 · 9 / 15
+              </figcaption>
+            </figure>
+            <a class="lightbox-nav lightbox-next" href="#lightbox-trivial-glance-10" aria-label="다음 이미지">
+              →
+            </a>
+          </section>
+          <section class="image-lightbox" id="lightbox-trivial-glance-10" role="dialog" aria-label="나는 시시하게 보고 지나쳤다 이미지 보기">
+            <a class="lightbox-close" href="#" aria-label="닫기">
+              ×
+            </a>
+            <a class="lightbox-nav lightbox-prev" href="#lightbox-trivial-glance-9" aria-label="이전 이미지">
+              ←
+            </a>
+            <figure class="lightbox-figure">
+              <img class="lightbox-image" src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto,a_90/work-15-view-04.png" alt="나는 시시하게 보고 지나쳤다" loading="lazy">
+              <figcaption class="lightbox-caption">
+                나는 시시하게 보고 지나쳤다 · 10 / 15
+              </figcaption>
+            </figure>
+            <a class="lightbox-nav lightbox-next" href="#lightbox-trivial-glance-11" aria-label="다음 이미지">
+              →
+            </a>
+          </section>
+          <section class="image-lightbox" id="lightbox-trivial-glance-11" role="dialog" aria-label="나는 시시하게 보고 지나쳤다 이미지 보기">
+            <a class="lightbox-close" href="#" aria-label="닫기">
+              ×
+            </a>
+            <a class="lightbox-nav lightbox-prev" href="#lightbox-trivial-glance-10" aria-label="이전 이미지">
+              ←
+            </a>
+            <figure class="lightbox-figure">
+              <img class="lightbox-image" src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto,a_90/work-15-view-05.png" alt="나는 시시하게 보고 지나쳤다" loading="lazy">
+              <figcaption class="lightbox-caption">
+                나는 시시하게 보고 지나쳤다 · 11 / 15
+              </figcaption>
+            </figure>
+            <a class="lightbox-nav lightbox-next" href="#lightbox-trivial-glance-12" aria-label="다음 이미지">
+              →
+            </a>
+          </section>
+          <section class="image-lightbox" id="lightbox-trivial-glance-12" role="dialog" aria-label="나는 시시하게 보고 지나쳤다 이미지 보기">
+            <a class="lightbox-close" href="#" aria-label="닫기">
+              ×
+            </a>
+            <a class="lightbox-nav lightbox-prev" href="#lightbox-trivial-glance-11" aria-label="이전 이미지">
+              ←
+            </a>
+            <figure class="lightbox-figure">
+              <img class="lightbox-image" src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto,a_90/work-15-view-06.png" alt="나는 시시하게 보고 지나쳤다" loading="lazy">
+              <figcaption class="lightbox-caption">
+                나는 시시하게 보고 지나쳤다 · 12 / 15
+              </figcaption>
+            </figure>
+            <a class="lightbox-nav lightbox-next" href="#lightbox-trivial-glance-13" aria-label="다음 이미지">
+              →
+            </a>
+          </section>
+          <section class="image-lightbox" id="lightbox-trivial-glance-13" role="dialog" aria-label="나는 시시하게 보고 지나쳤다 이미지 보기">
+            <a class="lightbox-close" href="#" aria-label="닫기">
+              ×
+            </a>
+            <a class="lightbox-nav lightbox-prev" href="#lightbox-trivial-glance-12" aria-label="이전 이미지">
+              ←
+            </a>
+            <figure class="lightbox-figure">
+              <img class="lightbox-image" src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto,a_90/work-15-view-07.png" alt="나는 시시하게 보고 지나쳤다" loading="lazy">
+              <figcaption class="lightbox-caption">
+                나는 시시하게 보고 지나쳤다 · 13 / 15
+              </figcaption>
+            </figure>
+            <a class="lightbox-nav lightbox-next" href="#lightbox-trivial-glance-14" aria-label="다음 이미지">
+              →
+            </a>
+          </section>
+          <section class="image-lightbox" id="lightbox-trivial-glance-14" role="dialog" aria-label="나는 시시하게 보고 지나쳤다 이미지 보기">
+            <a class="lightbox-close" href="#" aria-label="닫기">
+              ×
+            </a>
+            <a class="lightbox-nav lightbox-prev" href="#lightbox-trivial-glance-13" aria-label="이전 이미지">
+              ←
+            </a>
+            <figure class="lightbox-figure">
+              <img class="lightbox-image" src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto,a_90/work-15-view-08.png" alt="나는 시시하게 보고 지나쳤다" loading="lazy">
+              <figcaption class="lightbox-caption">
+                나는 시시하게 보고 지나쳤다 · 14 / 15
+              </figcaption>
+            </figure>
+            <a class="lightbox-nav lightbox-next" href="#lightbox-trivial-glance-15" aria-label="다음 이미지">
+              →
+            </a>
+          </section>
+          <section class="image-lightbox" id="lightbox-trivial-glance-15" role="dialog" aria-label="나는 시시하게 보고 지나쳤다 이미지 보기">
+            <a class="lightbox-close" href="#" aria-label="닫기">
+              ×
+            </a>
+            <a class="lightbox-nav lightbox-prev" href="#lightbox-trivial-glance-14" aria-label="이전 이미지">
+              ←
+            </a>
+            <figure class="lightbox-figure">
+              <img class="lightbox-image" src="https://res.cloudinary.com/iguwxlji/image/upload/f_auto,q_auto,a_90/work-15-view-14.png" alt="나는 시시하게 보고 지나쳤다" loading="lazy">
+              <figcaption class="lightbox-caption">
+                나는 시시하게 보고 지나쳤다 · 15 / 15
+              </figcaption>
+            </figure>
+            <a class="lightbox-nav lightbox-next" href="#lightbox-trivial-glance-1" aria-label="다음 이미지">
+              →
+            </a>
+          </section>
+          <div class="archive-articles">
+            <article class="archive-article" data-entry="1">
+              <time>
+                26.09.20
+              </time>
+              <div class="archive-article-body">
+                <p>
+                  생각을 뒤로 하고 바다를 바라본다. 그저 바라본다. 어디로 흐르는지 모르는 하나로 이어진 바다를 말이다. 부서진 파도조각 하나를 따라 눈은 움직인다. 내 발 밑까지 오는 길에는 해초도
+                  보이고 쓰레기도 보이고, 물에 비추어진 세상의 모습도 눈에 들어온다. 그리고 내가 쫒던 바다의 파도 한조각은 보이지 않는다. 수면 아래로 모습을 감추고 다시 다른 파도로 돌아와 나의 발을
+                  적신다. 차갑다. 발 사이에는 모래가 끼고, 나는 카메라를 통해 바다를 바라본다. 그 작은 화면에는 주변의 사람들과 높이 솟아난 건물들이 사라진다. 은연중에 촬영을 하면서 인간이 만든
+                  것들을 시선 밖으로 밀어낸다. 나도 모르게 보고싶지 않나보다. 하늘은 더 크고 웅장하게, 파도는 더 거칠고 푸르게, 적어도 나의 세상 안에서는 깨끗한 모습을 유지할 수 있도록. 나에게
+                  촬영은 깨끗한 바다의 모습을 담고, 나만의 바다로 간직하고싶은 나의 욕망이 아닐까 생각한다. 그 순간만큼은 그 바다의 주인이 내가 된 기분이니까 말이다.
+                </p>
+              </div>
+            </article>
+          </div>
+        </section>
+      </section>
+    </main>
   </body>
 </html>
