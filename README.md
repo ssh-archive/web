@@ -16,18 +16,26 @@
 ```html
 <!-- 01 · 감각의 지도 캡션 -->
 <section class="caption" data-project="map-of-senses" aria-label="감각의 지도 캡션">
-  <h2>감각의 지도</h2>
-  <p class="caption-meta">2025 · 종이에 잉크와 먹</p>
+  <h2>
+    감각의 지도
+  </h2>
+  <p class="caption-meta">
+    2025 · 종이에 잉크와 먹
+  </p>
   <div class="project-description">
-    <p>작품 설명의 첫 문단을 여기에 적습니다.</p>
-    <p>새 문단은 p 태그를 하나 더 만들어 작성합니다.</p>
+    <p>
+      작품 설명의 첫 문단을 여기에 적습니다.
+    </p>
+    <p>
+      새 문단은 p 태그를 하나 더 만들어 작성합니다.
+    </p>
   </div>
 </section>
 ```
 
 - 제목은 `<h2>`, 연도와 매체는 `<p class="caption-meta">` 안에서 수정합니다.
 - 본문은 `<div class="project-description">` 안에 적습니다. 문단을 나누려면 `<p>...</p>`를 추가합니다.
-- 설명이 없는 작품은 `project-description` 블록이 없어도 됩니다.
+- 아직 설명이 없는 작품에도 같은 `project-description` 블록을 넣고, `임시 캡션 — ...` 문장을 실제 설명으로 바꾸면 됩니다.
 - 작품을 선택하는 데 쓰이는 `data-project` 값은 작품의 다른 구역과 같게 유지하세요.
 
 ## 작품 이미지와 영상 편집
